@@ -1,5 +1,5 @@
 # adianti-framework-fork
-:elephant: Fork do Adianti FrameWork Puro 7.4.1
+:elephant: Fork do Adianti FrameWork Puro 7.5.0
 
 # Perguntas frequentes
 
