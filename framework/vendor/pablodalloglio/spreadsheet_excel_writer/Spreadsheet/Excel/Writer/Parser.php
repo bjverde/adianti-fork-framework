@@ -161,6 +161,9 @@ class Spreadsheet_Excel_Writer_Parser
     */
     public $_BIFF_version;
 
+    public $_functions;
+    public $ptg;
+
     /**
     * The class constructor
     *
