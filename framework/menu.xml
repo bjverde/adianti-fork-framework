@@ -16,11 +16,6 @@
                 <icon>fa:desktop fa-fw</icon>
                 <action>TemplateView</action>
             </menuitem>
-            
-            <menuitem label='Construa'>
-                <icon>fa:magic fa-fw</icon>
-                <action>BuildView</action>
-            </menuitem>
         </menu>
     </menuitem>
     <menuitem label='Configuração'>
