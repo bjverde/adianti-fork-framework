@@ -3,10 +3,14 @@ class AdiantiMenuBuilder
 {
     public static function parse($file, $theme)
     {
+        if (!in_array('SimpleXML', get_loaded_extensions()))
+        {
+            throw new Exception(_t('Extension not found: ^1', 'SimpleXML'));
+        }
+        
         switch ($theme)
         {
             case 'theme3':
-            case 'theme3_v5':
                 ob_start();
                 $xml = new SimpleXMLElement(file_get_contents($file));
                 $menu = new TMenu($xml, null, 1, 'treeview-menu', 'treeview', '');
@@ -31,7 +35,7 @@ class AdiantiMenuBuilder
                 $menu->add($li);
                 
                 $menu->class = 'list';
-                $menu->style = 'overflow: hidden; width: auto;';
+                $menu->style = 'overflow: hidden; width: auto; height: 390px;';
                 $menu->show();
                 $menu_string = ob_get_clean();
                 return $menu_string;
