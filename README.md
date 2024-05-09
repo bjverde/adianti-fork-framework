@@ -19,8 +19,8 @@ https://adiantiframework.com.br/
 https://adiantiframework.com.br/guia-rapido
 
 ## O que tem em cada pasta ?
-* framework - é o fork 
-* documents - diveros arquvivos sobre o fork
+* documents - diveros arquvivos e documentos sobre o fork
+* framework - é o fork do Adianti Fork 7.6.0
 
 ### Quais são as modificações em relação a versão original ?
 Veja documento [Changelog do Fork](documents/changelog_fork.md)

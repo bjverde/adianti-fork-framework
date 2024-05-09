@@ -30,4 +30,4 @@ Os temas theme3 e theme4 foram substituidos algumas melhorias
 * 🔨 [#18 Atualizar theme para theme3_v5 e theme4_v5 com Adianti 7.6.0](https://github.com/bjverde/adianti-fork-framework/issues/18)
 
 # Changelog das versões anteriores
-* [ChangeLog versão 7.5.1](changelog_fork_7.5.1.md]
+* [ChangeLog versão 7.5.1](changelog_fork_7.5.1.md)
