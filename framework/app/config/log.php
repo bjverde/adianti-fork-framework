@@ -1,8 +1,8 @@
 <?php
 return [
-     "host" => "app/database/log.db"
+     "host" => ""
     ,"port" => ""
-    ,"name" => ""
+    ,"name" => "app/database/log.db"
     ,"user" => ""
     ,"pass" => ""
     ,"type" => "sqlite"
