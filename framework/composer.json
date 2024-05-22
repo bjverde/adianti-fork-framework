@@ -14,7 +14,7 @@
     "pablodalloglio/fpdf": "dev-master",
     "pablodalloglio/phprtflite": "dev-master",
     "spomky-labs/otphp": "^10.0",
-    "slim/slim": "^4.*"
+    "slim/slim": "^4.1"
   },
   "config": {
     "preferred-install": {
