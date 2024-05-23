@@ -13,7 +13,20 @@
 if (! defined ( 'DS' )) {
     define ( 'DS', DIRECTORY_SEPARATOR );
 }
-$current_dirApi = dirname ( __FILE__ );
+$current_dirApi  = dirname ( __FILE__ );
+$applicationFile = $current_dirApi.DS.'..'.DS.'app/config/application.ini';
+
+if (version_compare(PHP_VERSION, '7.4.0') == -1){
+    die('The minimum version required for PHP is 7.4.0');
+}
+if ( !file_exists($applicationFile) ){
+    die('Application configuration file not found');
+}
+
+// define the autoloader
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/core/AdiantiCoreLoader.php';
+//spl_autoload_register(array('Adianti\Core\AdiantiCoreLoader', 'autoload'));
+//Adianti\Core\AdiantiCoreLoader::loadClassMap();
 
 require $current_dirApi.DS.'..'.DS.'vendor/autoload.php';
 require_once $current_dirApi.DS.'autoload_af7605_api.php';
@@ -24,5 +37,5 @@ require_once $current_dirApi.DS.'helpers'.DS.'CountHelper.class.php';
 require_once $current_dirApi.DS.'helpers'.DS.'ServerHelper.class.php';
 
 //--------------------------------------------------------------------------------
-require_once $current_dirApi.DS.'env.php';
+require_once $current_dirApi.DS.'config_api.php';
 require_once $current_dirApi.DS.'routes.php';
