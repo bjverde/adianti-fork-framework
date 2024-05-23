@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a7aa9aec15a7aff214537129dced9ce1",
+    "content-hash": "9da395e3cedfd987b35a90798febbc33",
     "packages": [
         {
             "name": "adianti/pdfdesigner",

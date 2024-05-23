@@ -14,8 +14,8 @@
     "pablodalloglio/fpdf": "dev-master",
     "pablodalloglio/phprtflite": "dev-master",
     "spomky-labs/otphp": "^10.0",
-		"slim/psr7" : "^1.5",
-		"slim/slim" : "^4.10",
+		"slim/psr7" : "^1.6",
+		"slim/slim" : "^4.13",
 		"tuupola/slim-basic-auth" : "^3.3"
   },
   "config": {
