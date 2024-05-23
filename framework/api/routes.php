@@ -35,8 +35,27 @@ $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, true, true);
 
 //Altere o caminho da API conforme o seu sistema
 $urlraizAPI = '/adiantiApp/adianti-fork-framework/framework/api/';
+
+
 $app->get($urlraizAPI, function (Request $request, Response $response, $args) {
-    $msg = "Hello world!";
+    $url = \ServerHelper::getFullServerName();
+    $routes = $app->getRouteCollector()->getRoutes();
+    $routesArray = array();
+    foreach ($routes as $route) {
+        $routeArray = array();
+        $routeArray['id']  = $route->getIdentifier();
+        $routeArray['name']= $route->getName();
+        $routeArray['methods']= $route->getMethods()[0];
+        $routeArray['url'] = $url.$route->getPattern();
+        $routesArray[] = $routeArray;
+    }
+
+    $msg = array( 'info'=> SysinfoAPI::info()
+                , 'endpoints'=>array( 'qtd'=> \CountHelper::count($routesArray)
+                                    ,'result'=>$routesArray
+                                    )
+                );
+
     $msgJson = json_encode($msg);
     $response->getBody()->write( $msgJson );
     $result = $response->withHeader('Content-Type', 'application/json');
