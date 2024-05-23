@@ -8,6 +8,8 @@ $baseDir = dirname($vendorDir);
 return array(
     'a4ecaeafb8cfb009ad0e052c90355e98' => $vendorDir . '/beberlei/assert/lib/Assert/functions.php',
     '253c157292f75eb38082b5acb06f3f01' => $vendorDir . '/nikic/fast-route/src/functions.php',
+    '7b11c4dc42b3b3023073cb14e519683c' => $vendorDir . '/ralouphie/getallheaders/src/getallheaders.php',
+    'a4a119a56e50fbb293281d9a48007e0e' => $vendorDir . '/symfony/polyfill-php80/bootstrap.php',
     '51fcf4e06c07cc00c920b44bcd900e7a' => $vendorDir . '/thecodingmachine/safe/deprecated/apc.php',
     '288267919fedd3829a7732b5fb202197' => $vendorDir . '/thecodingmachine/safe/deprecated/array.php',
     'a88cd08cfbf1600f7d5de6e587eee1fa' => $vendorDir . '/thecodingmachine/safe/deprecated/datetime.php',
