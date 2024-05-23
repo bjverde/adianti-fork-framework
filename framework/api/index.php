@@ -16,12 +16,11 @@ if (! defined ( 'DS' )) {
 $current_dirApi = dirname ( __FILE__ );
 
 require $current_dirApi.DS.'..'.DS.'vendor/autoload.php';
-//require_once $current_dirApi.DS.'..'.DS.'includes'.DS.'constantes.php';
-//require_once $current_dirApi.DS.'..'.DS.'includes'.DS.'config_conexao.php';
-//require_once $current_dirApi.DS.'..'.DS.'..'.DS.'base/classes/webform/TApplication.class.php';
-//require_once $current_dirApi.DS.'..'.DS.'controllers'.DS.'autoload_za.php';
-//require_once $current_dirApi.DS.'..'.DS.'dao'.DS.'autoload_za_dao.php';
-//require_once $current_dirApi.DS.'autoload_za_api.php';
+
+//REMOVER SE ESTIVER USANDO FormDin5
+require_once $current_dirApi.DS.'helpers'.DS.'ArrayHelper.class.php';
+require_once $current_dirApi.DS.'helpers'.DS.'CountHelper.class.php';
+require_once $current_dirApi.DS.'helpers'.DS.'ServerHelper.class.php';
 
 //--------------------------------------------------------------------------------
 require_once $current_dirApi.DS.'env.php';
