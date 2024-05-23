@@ -16,6 +16,7 @@ if (! defined ( 'DS' )) {
 $current_dirApi = dirname ( __FILE__ );
 
 require $current_dirApi.DS.'..'.DS.'vendor/autoload.php';
+require_once $current_dirApi.DS.'autoload_af7605_api.php';
 
 //REMOVER SE ESTIVER USANDO FormDin5
 require_once $current_dirApi.DS.'helpers'.DS.'ArrayHelper.class.php';
