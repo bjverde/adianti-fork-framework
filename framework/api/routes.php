@@ -5,9 +5,14 @@ use Slim\Factory\AppFactory;
 
 $app = AppFactory::create();
 
-$app->get('/adiantiApp/adianti-fork-framework/framework/api/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write("Hello world!");
-    return $response;
+//Altere o caminho da API conforme o seu sistema
+$caminhoAPI = '/adiantiApp/adianti-fork-framework/framework/api/';
+$app->get($caminhoAPI, function (Request $request, Response $response, $args) {
+    $msg = "Hello world!";
+    $msgJson = json_encode($msg);
+    $response->getBody()->write( $msgJson );
+    $result = $response->withHeader('Content-Type', 'application/json');
+    return $result;
 });
 
 $app->run();
