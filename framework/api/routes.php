@@ -69,6 +69,18 @@ $app->get($urlraizAPI, function (Request $request, Response $response, $args) us
     return $result;
 });
 
+
+//Entrar na classe Authentication para pegar usuário e senha
+//Descomentar as linhas que precisam ser autenticadas
+//$controllerAuthentication = new Authentication($urlraizAPI);
+//$controllerAuthentication->addPath('sqlite_sequence');
+//$app->add($controllerAuthentication->basicAuth());
+
+
+$app->get($urlraizAPI.'sysinfo', SysinfoAPI::class . ':getInfo');
+//$app->get($urlraizAPI.'auth', SysinfoAPI::class . ':getInfo');
+
+
 //--------------------------------------------------------------------
 //  Exemplo HTML
 //--------------------------------------------------------------------
@@ -88,6 +100,20 @@ $app->get($urlGrupo, function (Request $request, Response $response, $args) {
     $response->getBody()->write( $msgJson );
     $result = $response->withHeader('Content-Type', 'application/json');
     return $result;
+});
+
+//--------------------------------------------------------------------
+//  TABLE: sqlite_sequence
+//--------------------------------------------------------------------
+$urlGrupo = $urlraizAPI.'sqlite_sequence';
+$app->group($urlGrupo, function(RouteCollectorProxy $group) use ($app,$urlGrupo) {
+    $app->get($urlGrupo.'', Sqlite_sequenceAPI::class . ':selectAll');
+    $app->get($urlGrupo.'/{id:[0-9]+}', Sqlite_sequenceAPI::class . ':selectById');
+
+
+    $app->post($urlGrupo.'', Sqlite_sequenceAPI::class . ':save');
+    $app->put($urlGrupo.'/{id:[0-9]+}', Sqlite_sequenceAPI::class . ':save');
+    $app->delete($urlGrupo.'/{id:[0-9]+}', Sqlite_sequenceAPI::class . ':delete');
 });
 
 $app->run();
