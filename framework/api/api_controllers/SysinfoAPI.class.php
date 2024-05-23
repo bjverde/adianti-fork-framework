@@ -12,9 +12,9 @@ class SysinfoAPI {
     public static function info()
     {
         $result = array(
-            'SYSTEM_NAME'=>SYSTEM_NAME
-            ,'SYSTEM_ACRONYM'=>SYSTEM_ACRONYM
-            ,'SYSTEM_VERSION'=>SYSTEM_VERSION
+            'SYSTEM_NAME'=>API_SYSTEM_NAME
+            ,'SYSTEM_ACRONYM'=>API_SYSTEM_ACRONYM
+            ,'SYSTEM_VERSION'=>API_SYSTEM_VERSION
         );
         return $result;
     }

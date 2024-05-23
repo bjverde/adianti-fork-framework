@@ -33,7 +33,7 @@ $app->addRoutingMiddleware();
  * Note: This middleware should be added last. It will not handle any exceptions/errors
  * for middleware added after it.
  */
-$displayErrorDetails = getenv('DISPLAY_ERRORS_DETAILS');
+$displayErrorDetails = API_DISPLAY_ERRORS_DETAILS;
 $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, true, true);
 
 //Altere o caminho da API conforme o seu sistema
