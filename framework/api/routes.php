@@ -4,6 +4,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Routing\RouteCollectorProxy as RouteCollectorProxy;
 use Slim\Factory\AppFactory;
 
+
+use api_controllers\SysinfoAPI;
+
 /**
  * Instantiate App
  *
@@ -34,10 +37,14 @@ $displayErrorDetails = getenv('DISPLAY_ERRORS_DETAILS');
 $errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, true, true);
 
 //Altere o caminho da API conforme o seu sistema
-$urlraizAPI = '/adiantiApp/adianti-fork-framework/framework/api/';
+//$urlraizAPI = '/adiantiApp/adianti-fork-framework/framework/api/';
+$urlraizAPI = ServerHelper::getRequestUri(true);
+$urlraizAPI = explode('api/', $urlraizAPI);
+$urlraizAPI = $urlraizAPI[0];
+$urlraizAPI = $urlraizAPI.'api/';
 
 
-$app->get($urlraizAPI, function (Request $request, Response $response, $args) {
+$app->get($urlraizAPI, function (Request $request, Response $response, $args) use ($app) {
     $url = \ServerHelper::getFullServerName();
     $routes = $app->getRouteCollector()->getRoutes();
     $routesArray = array();
