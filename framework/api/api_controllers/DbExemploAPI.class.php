@@ -15,7 +15,7 @@ namespace api_controllers;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
-class Sqlite_sequenceAPI
+class DbExemploAPI
 {
 
     public function __construct()
