@@ -55,8 +55,8 @@ class DbExemploAPI
     private static function selectByIdInside(array $args)
     {
         $id = $args['id'];
-        $controller = new \Sqlite_sequence();
-        $result = $controller->selectById($id);
+        $controller = new \ExemploControllers();
+        $result = $controller->getById($id);
         $result = \ArrayHelper::convertArrayFormDin2Pdo($result);
         return $result;
     }
