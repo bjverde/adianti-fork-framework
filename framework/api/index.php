@@ -28,10 +28,14 @@ require_once $current_dirApi.DS.'..'.DS.'lib/adianti/core/AdiantiCoreLoader.php'
 require_once $current_dirApi.DS.'..'.DS.'vendor/autoload.php';
 
 //Classes do Adianti
+
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/core/AdiantiCoreTranslator.php';
+
 require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TExpression.php';
-require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TSqlStatement.php';
-require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TConnection.php';
 require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TCriteria.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TSqlStatement.php';
+
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TConnection.php';
 require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TDatabase.php';
 require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TFilter.php';
 require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TRecord.php';
