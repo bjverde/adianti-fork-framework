@@ -6,6 +6,7 @@ use Slim\Factory\AppFactory;
 
 
 use api_controllers\SysinfoAPI;
+use api_controllers\DbExemploAPI;
 
 /**
  * Instantiate App
@@ -103,17 +104,17 @@ $app->get($urlGrupo, function (Request $request, Response $response, $args) {
 })->setName('json-hello world');
 
 //--------------------------------------------------------------------
-//  TABLE: sqlite_sequence
+//  TABLE: exemplo
 //--------------------------------------------------------------------
-$urlGrupo = $urlraizAPI.'sqlite_sequence';
+$urlGrupo = $urlraizAPI.'dbexemplo';
 $app->group($urlGrupo, function(RouteCollectorProxy $group) use ($app,$urlGrupo) {
-    $app->get($urlGrupo.'', Sqlite_sequenceAPI::class . ':selectAll');
-    $app->get($urlGrupo.'/{id:[0-9]+}', Sqlite_sequenceAPI::class . ':selectById');
+    $app->get($urlGrupo.'', DbExemploAPI::class . ':selectAll');
+    $app->get($urlGrupo.'/{id:[0-9]+}', DbExemploAPI::class . ':selectById')->setName('selectById');
 
 
-    $app->post($urlGrupo.'', Sqlite_sequenceAPI::class . ':save');
-    $app->put($urlGrupo.'/{id:[0-9]+}', Sqlite_sequenceAPI::class . ':save');
-    $app->delete($urlGrupo.'/{id:[0-9]+}', Sqlite_sequenceAPI::class . ':delete');
+    $app->post($urlGrupo.'', DbExemploAPI::class . ':save');
+    $app->put($urlGrupo.'/{id:[0-9]+}', DbExemploAPI::class . ':save');
+    $app->delete($urlGrupo.'/{id:[0-9]+}', DbExemploAPI::class . ':delete');
 });
 
 $app->run();
