@@ -25,10 +25,27 @@ if ( !file_exists($applicationFile) ){
 
 // define the autoloader
 require_once $current_dirApi.DS.'..'.DS.'lib/adianti/core/AdiantiCoreLoader.php';
-//spl_autoload_register(array('Adianti\Core\AdiantiCoreLoader', 'autoload'));
-//Adianti\Core\AdiantiCoreLoader::loadClassMap();
+require_once $current_dirApi.DS.'..'.DS.'vendor/autoload.php';
 
-require $current_dirApi.DS.'..'.DS.'vendor/autoload.php';
+//Classes do Adianti
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TExpression.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TSqlStatement.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TConnection.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TCriteria.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TDatabase.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TFilter.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TRecord.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TRepository.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TSqlDelete.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TSqlInsert.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TSqlMultiInsert.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TSqlSelect.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TSqlUpdate.php';
+require_once $current_dirApi.DS.'..'.DS.'lib/adianti/database/TTransaction.php';
+
+//Classes de Negocios
+require_once $current_dirApi.DS.'..'.DS.'app/control/api-exemplo/ExemploControllers.class.php';
+
 require_once $current_dirApi.DS.'autoload_af7605_api.php';
 
 //REMOVER SE ESTIVER USANDO FormDin5
