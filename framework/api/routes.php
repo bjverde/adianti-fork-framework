@@ -67,7 +67,7 @@ $app->get($urlraizAPI, function (Request $request, Response $response, $args) us
     $response->getBody()->write( $msgJson );
     $result = $response->withHeader('Content-Type', 'application/json');
     return $result;
-});
+})->setName('index');
 
 
 //Entrar na classe Authentication para pegar usuário e senha
@@ -77,7 +77,7 @@ $app->get($urlraizAPI, function (Request $request, Response $response, $args) us
 //$app->add($controllerAuthentication->basicAuth());
 
 
-$app->get($urlraizAPI.'sysinfo', SysinfoAPI::class . ':getInfo');
+$app->get($urlraizAPI.'sysinfo', SysinfoAPI::class . ':getInfo')->setName('sysinfo');
 //$app->get($urlraizAPI.'auth', SysinfoAPI::class . ':getInfo');
 
 
@@ -88,7 +88,7 @@ $urlGrupo = $urlraizAPI.'html';
 $app->get($urlGrupo, function (Request $request, Response $response, $args) {
     $response->getBody()->write("Hello world!");
     return $response;
-});
+})->setName('html-hello world');
 
 //--------------------------------------------------------------------
 //  Exemplo JSON
@@ -100,7 +100,7 @@ $app->get($urlGrupo, function (Request $request, Response $response, $args) {
     $response->getBody()->write( $msgJson );
     $result = $response->withHeader('Content-Type', 'application/json');
     return $result;
-});
+})->setName('json-hello world');
 
 //--------------------------------------------------------------------
 //  TABLE: sqlite_sequence
