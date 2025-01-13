@@ -4,7 +4,7 @@ namespace Adianti\Core;
 /**
  * Class map
  *
- * @version    7.6
+ * @version    8.0
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -122,6 +122,7 @@ class AdiantiClassMap
         $classPath['TLikertScale']                    = 'lib/adianti/widget/form/TLikertScale.php';
         $classPath['TSeekButton']                     = 'lib/adianti/widget/form/TSeekButton.php';
         $classPath['TSelect']                         = 'lib/adianti/widget/form/TSelect.php';
+        $classPath['TMultiCombo']                     = 'lib/adianti/widget/form/TMultiCombo.php';
         $classPath['TSlider']                         = 'lib/adianti/widget/form/TSlider.php';
         $classPath['TSortList']                       = 'lib/adianti/widget/form/TSortList.php';
         $classPath['TSpinner']                        = 'lib/adianti/widget/form/TSpinner.php';
@@ -134,6 +135,7 @@ class AdiantiClassMap
         $classPath['TImageCropper']                   = 'lib/adianti/widget/form/TImageCropper.php';
         $classPath['TImageCapture']                   = 'lib/adianti/widget/form/TImageCapture.php';
         $classPath['TArrowStep']                      = 'lib/adianti/widget/form/TArrowStep.php';
+        $classPath['TModalForm']                      = 'lib/adianti/widget/form/TModalForm.php';
         $classPath['TMenu']                           = 'lib/adianti/widget/menu/TMenu.php';
         $classPath['TMenuBar']                        = 'lib/adianti/widget/menu/TMenuBar.php';
         $classPath['TMenuItem']                       = 'lib/adianti/widget/menu/TMenuItem.php';
@@ -151,6 +153,8 @@ class AdiantiClassMap
         $classPath['TTreeView']                       = 'lib/adianti/widget/util/TTreeView.php';
         $classPath['TXMLBreadCrumb']                  = 'lib/adianti/widget/util/TXMLBreadCrumb.php';
         $classPath['TTextDisplay']                    = 'lib/adianti/widget/util/TTextDisplay.php';
+        $classPath['TBarcodeDisplay']                 = 'lib/adianti/widget/util/TBarcodeDisplay.php';
+        $classPath['TQRCodeDisplay']                  = 'lib/adianti/widget/util/TQRCodeDisplay.php';
         $classPath['TActionLink']                     = 'lib/adianti/widget/util/TActionLink.php';
         $classPath['THyperLink']                      = 'lib/adianti/widget/util/THyperLink.php';
         $classPath['TIconView']                       = 'lib/adianti/widget/util/TIconView.php';
@@ -167,6 +171,7 @@ class AdiantiClassMap
         $classPath['TDBRadioGroup']                   = 'lib/adianti/widget/wrapper/TDBRadioGroup.php';
         $classPath['TDBSeekButton']                   = 'lib/adianti/widget/wrapper/TDBSeekButton.php';
         $classPath['TDBSelect']                       = 'lib/adianti/widget/wrapper/TDBSelect.php';
+        $classPath['TDBMultiCombo']                   = 'lib/adianti/widget/wrapper/TDBMultiCombo.php';
         $classPath['TDBSortList']                     = 'lib/adianti/widget/wrapper/TDBSortList.php';
         $classPath['TDBUniqueSearch']                 = 'lib/adianti/widget/wrapper/TDBUniqueSearch.php';
         $classPath['TDBCheckList']                    = 'lib/adianti/widget/wrapper/TDBCheckList.php';

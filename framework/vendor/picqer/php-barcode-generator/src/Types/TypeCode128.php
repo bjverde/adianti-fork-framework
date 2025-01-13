@@ -18,9 +18,9 @@ use Picqer\Barcode\Exceptions\InvalidLengthException;
 
 class TypeCode128 implements TypeInterface
 {
-    protected $type = null;
+    protected ?string $type = null;
 
-    protected $conversionTable = [
+    protected array $conversionTable = [
         '212222', /* 00 */
         '222122', /* 01 */
         '222221', /* 02 */
@@ -131,7 +131,7 @@ class TypeCode128 implements TypeInterface
         '200000'  /* END */
     ];
 
-    public function getBarcodeData(string $code): Barcode
+    public function getBarcode(string $code): Barcode
     {
         if (strlen(trim($code)) === 0) {
             throw new InvalidLengthException('You should provide a barcode string.');
@@ -214,7 +214,7 @@ class TypeCode128 implements TypeInterface
                 // get numeric sequences (if any)
                 $numseq = [];
                 preg_match_all('/([0-9]{4,})/', $code, $numseq, PREG_OFFSET_CAPTURE);
-                if (isset($numseq[1]) AND ! empty($numseq[1])) {
+                if (! empty($numseq[1])) {
                     $end_offset = 0;
                     foreach ($numseq[1] as $val) {
                         $offset = $val[1];
@@ -383,14 +383,14 @@ class TypeCode128 implements TypeInterface
      * @return array sequence
      * @protected
      */
-    protected function get128ABsequence($code)
+    protected function get128ABsequence($code): array
     {
         $len = strlen($code);
         $sequence = [];
         // get A sequences (if any)
         $numseq = [];
         preg_match_all('/([\x00-\x1f])/', $code, $numseq, PREG_OFFSET_CAPTURE);
-        if (isset($numseq[1]) AND ! empty($numseq[1])) {
+        if (empty($numseq[1])) {
             $end_offset = 0;
             foreach ($numseq[1] as $val) {
                 $offset = $val[1];

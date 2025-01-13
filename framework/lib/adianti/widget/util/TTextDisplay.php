@@ -7,7 +7,7 @@ use Adianti\Widget\Base\TScript;
 /**
  * Text Display
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -16,9 +16,12 @@ use Adianti\Widget\Base\TScript;
  */
 class TTextDisplay extends TElement
 {
+    private $value;
+    private $inlineStyle;
+    private $transformer;
     private $toggleVisibility;
     private $size = null;
-
+    
     /**
      * Class Constructor
      * @param  $value text content
@@ -33,39 +36,37 @@ class TTextDisplay extends TElement
 
         $this->toggleVisibility = FALSE;
         
-        $style = array();
+        $this->inlineStyle = array();
         
         if (!empty($color))
         {
-            $style['color'] = $color;
+            $this->inlineStyle['color'] = $color;
         }
         
         if (!empty($fontSize))
         {
-            $style['font-size'] = (strpos($fontSize, 'px') or strpos($fontSize, 'pt')) ? $fontSize : $fontSize.'pt';
+            $this->inlineStyle['font-size'] = (is_numeric($fontSize) ? $fontSize.'pt' : $fontSize);
         }
         
         if (!empty($decoration))
         {
             if (strpos(strtolower($decoration), 'b') !== FALSE)
             {
-                $style['font-weight'] = 'bold';
+                $this->inlineStyle['font-weight'] = 'bold';
             }
             
             if (strpos(strtolower($decoration), 'i') !== FALSE)
             {
-                $style['font-style'] = 'italic';
+                $this->inlineStyle['font-style'] = 'italic';
             }
             
             if (strpos(strtolower($decoration), 'u') !== FALSE)
             {
-                $style['text-decoration'] = 'underline';
+                $this->inlineStyle['text-decoration'] = 'underline';
             }
         }
         
-        parent::add($value);
-
-        $this->{'style'} = substr( str_replace(['"',','], ['',';'], json_encode($style) ), 1, -1);
+        $this->value = $value;
     }
     
     /**
@@ -73,8 +74,7 @@ class TTextDisplay extends TElement
      */
     public function setLabel($label)
     {
-        parent::clearChildren();
-        parent::add($label);
+        $this->value = $label;
     }
     
     /**
@@ -101,9 +101,31 @@ class TTextDisplay extends TElement
     {
         $this->toggleVisibility = $toggleVisibility;
     }
-
+    
+    /**
+     * Define a callback function to be applyed over the column's data
+     * @param $callback  A function name of a method of an object
+     */
+    public function setTransformer(Callable $callback)
+    {
+        $this->transformer = $callback;
+    }
+    
+    /**
+     *
+     */
     public function show()
     {
+        if ($this->transformer)
+        {
+            $this->value = call_user_func($this->transformer, $this->value);
+        }
+        
+        $this->{'style'} .= substr( str_replace(['"',','], ['',';'], json_encode($this->inlineStyle) ), 1, -1);
+        
+        parent::clearChildren();
+        parent::add($this->value);
+        
         if ($this->toggleVisibility)
         {
             $icon = new TElement('i');

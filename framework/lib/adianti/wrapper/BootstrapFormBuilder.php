@@ -33,7 +33,7 @@ use Exception;
 /**
  * Bootstrap form builder for Adianti Framework
  *
- * @version    7.6
+ * @version    8.0
  * @package    wrapper
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -744,6 +744,8 @@ class BootstrapFormBuilder implements AdiantiFormInterface
                 $tab_link->{'href'} = "#tab_{$this->id}_{$tab_counter}";
                 $tab_link->{'role'} = 'tab';
                 $tab_link->{'data-toggle'} = 'tab';
+                $tab_link->{'data-bs-toggle'} = 'tab';
+                $tab_link->{'data-bs-target'} = $tab_link->{'href'};
                 $tab_link->{'aria-expanded'} = 'true';
                 $tab_link->{'class'} = "nav-link " . $class;
                 if ($this->tabFunction)
@@ -782,7 +784,7 @@ class BootstrapFormBuilder implements AdiantiFormInterface
             $tabpanel->{'style'} = 'padding:10px; margin-top: -1px;';
             if ($tab)
             {
-                $tabpanel->{'style'} .= 'border: 1px solid #DDDDDD';
+                $tabpanel->{'style'} .= 'border: 1px solid var(--bs-border-color)';
             }
             $tabpanel->{'id'}    = "tab_{$this->id}_{$tab_counter}";
             
@@ -798,8 +800,21 @@ class BootstrapFormBuilder implements AdiantiFormInterface
                     $slots = $row->{'content'};
                     $type  = $row->{'type'};
                     
+                    // get additional properties (Ex. addFields(...)->id = 'x';
+                    $raw_row = clone $row;
+                    unset($raw_row->{'content'});
+                    unset($raw_row->{'type'});
+                    unset($raw_row->{'layout'});
+                    
                     $form_group = new TElement('div');
+                    
+                    if (!empty( (array) $raw_row))
+                    {
+                        $form_group->setProperties( (array) $raw_row );
+                    }
+                    
                     $form_group->{'class'} = 'form-group tformrow row' . ' ' . ( isset($row->{'class'}) ? $row->{'class'} : '' );
+                    
                     $tabpanel->add($form_group);
                     $row_visual_widgets = 0;
                     
@@ -948,9 +963,8 @@ class BootstrapFormBuilder implements AdiantiFormInterface
     {
         $object = $field; // BC Compability
         $field_size = (is_object($object) && method_exists($object, 'getSize')) ? $field->getSize() : null;
-        $has_underline = (!$field instanceof TLabel && !$field instanceof TRadioGroup && !$field instanceof TCheckGroup && !$field instanceof TButton && !$field instanceof THidden && !$field instanceof TSlider && !$field instanceof TCheckButton);
         $field_wrapper = new TElement('div');
-        $field_wrapper->{'class'} = 'fb-inline-field-container ' . ((($field instanceof TField) and ($has_underline)) ? 'form-line' : '');
+        $field_wrapper->{'class'} = 'fb-inline-field-container ';
         $field_wrapper->{'style'} = "display: {$display};vertical-align:top;" . ($display=='inline-block'?'float:left':'');
 
         if ($field instanceof TField)
@@ -1036,7 +1050,7 @@ class BootstrapFormBuilder implements AdiantiFormInterface
         {
             if (in_array($object->getProperty('widget'), ['tmultisearch', 'tdbmultisearch', 'thtmleditor', 'tmultientry']))
             {
-                $object->setSize('100%', $field_size[1] - 3);
+                $object->setSize('100%', $field_size[1] - 7);
             }
             else if ( ($field_size) AND !($object instanceof TRadioGroup || $object instanceof TCheckGroup))
             {

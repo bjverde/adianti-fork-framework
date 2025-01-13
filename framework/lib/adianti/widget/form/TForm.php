@@ -15,7 +15,7 @@ use ReflectionClass;
 /**
  * Wrapper class to deal with forms
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -30,6 +30,7 @@ class TForm implements AdiantiFormInterface
     protected $js_function;
     protected $element;
     protected $silent_fields;
+    protected $virtual_property;
     private static $forms;
     
     /**
@@ -114,6 +115,22 @@ class TForm implements AdiantiFormInterface
                 $this->element->$name = $value;
             }
         }
+    }
+    
+    /**
+     * Set Virtual Property
+     */
+    public function setVirtualProperty($name, $value)
+    {
+        $this->virtual_property[$name] = $value;
+    }
+    
+    /**
+     * Get Virtual Property
+     */
+    public function getVirtualProperty($name)
+    {
+        return $this->virtual_property[$name];
     }
     
     /**
@@ -483,6 +500,26 @@ class TForm implements AdiantiFormInterface
     public function getChild()
     {
         return $this->children[0];
+    }
+    
+    /**
+     * Enable the field
+     * @param $form_name Form name
+     * @param $field Field name
+     */
+    public static function enableField($form_name, $field, $timeout = null)
+    {
+        TScript::create( " tform_enable_field('{$form_name}', '{$field}'); ", true, $timeout );
+    }
+    
+    /**
+     * Disable the field
+     * @param $form_name Form name
+     * @param $field Field name
+     */
+    public static function disableField($form_name, $field, $timeout = null)
+    {
+        TScript::create( " tform_disable_field('{$form_name}', '{$field}'); ", true, $timeout );
     }
     
     /**

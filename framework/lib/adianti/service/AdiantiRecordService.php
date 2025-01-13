@@ -9,7 +9,7 @@ use Adianti\Database\TFilter;
 /**
  * Record rest service
  *
- * @version    7.6
+ * @version    8.0
  * @package    service
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -216,27 +216,27 @@ class AdiantiRecordService
             case 'GET':
                 if (!empty($param['id']))
                 {
-                    return self::load($param);
+                    return $this->load($param);
                 }
                 else
                 {
-                    return self::loadAll($param);
+                    return $this->loadAll($param);
                 }
                 break;
             case 'POST':
-                return self::store($param);
+                return $this->store($param);
                 break;
             case 'PUT':
-                return self::store($param);
+                return $this->store($param);
                 break;        
             case 'DELETE':
                 if (!empty($param['id']))
                 {
-                    return self::delete($param);
+                    return $this->delete($param);
                 }
                 else
                 {
-                    return self::deleteAll($param);
+                    return $this->deleteAll($param);
                 }
                 break;
         }

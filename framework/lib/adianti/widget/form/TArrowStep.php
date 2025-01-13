@@ -14,7 +14,7 @@ use Exception;
 /**
  * Arrow Step
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage util
  * @author     Lucas Tomasi
@@ -553,7 +553,7 @@ class TArrowStep extends TField implements AdiantiWidgetInterface
         
         $styleClassBorderStepBefore = new TStyle($this->className.' .step:before');
         $styleClassBorderStepBefore->{'border-left-width'} = $size2;
-        $styleClassBorderStepBefore->{"border-left-color"} = 'white';
+        $styleClassBorderStepBefore->{"border-left-color"} = 'var(--bs-body-bg)';
         $styles->add($styleClassBorderStepBefore);
 
         $styleClassBorderSpanBefore = new TStyle($this->className.' span:before');

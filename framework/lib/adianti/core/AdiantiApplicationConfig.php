@@ -1,10 +1,12 @@
 <?php
 namespace Adianti\Core;
 
+use Adianti\Util\AdiantiStringConversion;
+
 /**
  * Application config
  *
- * @version    7.6
+ * @version    8.0
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -13,6 +15,40 @@ namespace Adianti\Core;
 class AdiantiApplicationConfig
 {
     private static $config;
+    
+    /**
+     * Start and apply all configuration
+     */
+    public static function start()
+    {
+        if (file_exists('app/config/application.ini'))
+        {
+            $ini = parse_ini_file('app/config/application.ini', true);
+        }
+        else if (file_exists('app/config/application.php'))
+        {
+            $ini = require 'app/config/application.php';
+        }
+        else
+        {
+            die('Application configuration file not found');
+        }
+        
+        $session_name = AdiantiStringConversion::slug($ini['general']['application'], '');
+        
+        date_default_timezone_set($ini['general']['timezone']);
+        AdiantiCoreTranslator::setLanguage( $ini['general']['language'] );
+        \ApplicationTranslator::setLanguage( $ini['general']['language'] );
+        
+        // custom session name
+        session_name('PHPSESSID_'.$session_name);
+        define('APPLICATION_NAME', $session_name);
+        define('OS', strtoupper(substr(PHP_OS, 0, 3)));
+        define('LANG', \ApplicationTranslator::getLanguage());
+        
+        self::load($ini);
+        self::apply();
+    }
     
     /**
      * Load configuration from array

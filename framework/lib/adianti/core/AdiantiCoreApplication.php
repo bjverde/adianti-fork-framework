@@ -15,7 +15,7 @@ use Adianti\Widget\Util\TExceptionView;
 /**
  * Basic structure to run a web application
  *
- * @version    7.6
+ * @version    8.0
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -109,7 +109,6 @@ class AdiantiCoreApplication
                 }
                 catch (Error $e)
                 {
-                    
                     ob_start();
                     if ($debug)
                     {
@@ -332,6 +331,20 @@ class AdiantiCoreApplication
         $query = self::buildHttpQuery($class, $method, $parameters);
         
         TScript::create("__adianti_load_page('{$query}');", true, 1);
+    }
+    
+    /**
+     * Load a page simplified mode
+     *
+     * @param $class class name
+     * @param $method method name
+     * @param $parameters array of parameters
+     */
+    public static function loadPageSimple($class, $method = NULL, $parameters = NULL)
+    {
+        $query = self::buildHttpQuery($class, $method, $parameters);
+        
+        TScript::create("__adianti_load_page('{$query}', null, false);", true, 1);
     }
     
     /**

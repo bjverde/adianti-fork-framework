@@ -2,6 +2,7 @@
 namespace Adianti\Widget\Util;
 
 use Adianti\Database\TTransaction;
+use Adianti\Database\TRecord;
 use Adianti\Widget\Base\TScript;
 use Adianti\Widget\Base\TElement;
 use Adianti\Control\TAction;
@@ -16,7 +17,7 @@ use Exception;
 /**
  * Kanban
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage util
  * @author     Artur Comunello
@@ -36,9 +37,13 @@ class TKanban extends TElement
     protected $stageDropAction;
     protected $templatePath;
     protected $itemTemplate;
+    protected $itemTemplateCallback;
     protected $itemDatabase;
     protected $topScrollbar;
     protected $stageHeight;
+    protected $searchForm;
+    protected $editForm;
+    protected $metadata;
     
     /**
      * Class Constructor
@@ -133,6 +138,26 @@ class TKanban extends TElement
     }
     
     /**
+     *
+     */
+    public function addObject(TRecord $object)
+    {
+        $this->addItem($object->getPrimaryKeyValue(),
+                       $object->render('{'.$this->getMetadata('stage_field').'}'),
+                       '', '',
+                       $object->render('{'.$this->getMetadata('color_field').'}'),
+                       $object);
+    }
+    
+    /**
+     * Clear items
+     */
+    public function clear()
+    {
+        $this->items = [];
+    }
+    
+    /**
      * Set kanban item template for rendering
      * @param  $path   Template path
      */
@@ -148,6 +173,15 @@ class TKanban extends TElement
     public function setItemTemplate($template)
     {
         $this->itemTemplate = $template;
+    }
+    
+    /**
+     * Set card item callback for rendering
+     * @param  $callback Callback
+     */
+    public function setItemTemplateCallback(Callable $callback)
+    {
+        $this->itemTemplateCallback = $callback;
     }
     
     /**
@@ -249,6 +283,58 @@ class TKanban extends TElement
     }
     
     /**
+     * Assign a TForm object
+     * @param $searchForm object
+     */
+    public function setSearchForm($searchForm)
+    {
+        $this->searchForm = $searchForm;
+    }
+    
+    /**
+     * Assign a TForm object
+     * @param $editForm object
+     */
+    public function setEditForm($editForm)
+    {
+        $this->editForm = $editForm;
+    }
+    
+    /**
+     * Return the assigned Search form object
+     * @return TForm object
+     */
+    public function getSearchForm()
+    {
+        return $this->searchForm;
+    }
+    
+    /**
+     * Return the assigned Edit form object
+     * @return TForm object
+     */
+    public function getEditForm()
+    {
+        return $this->editForm;
+    }
+    
+    /**
+     * Set metadata
+     */
+    public function setMetadata($metadata, $value)
+    {
+        $this->metadata[$metadata] = $value;
+    }
+    
+    /**
+     * Get metadata
+     */
+    public function getMetadata($metadata)
+    {
+        return $this->metadata[$metadata] ?? null;
+    }
+    
+    /**
      * Render stage items
      */
     private function renderStageItems($stage)
@@ -296,6 +382,11 @@ class TKanban extends TElement
         $item_wrapper->{'item_id'} = $item->id;
         $item_wrapper->{'class'}   = 'kanban-item';
         
+        if (!empty($this->itemDropAction))
+        {
+            $item_wrapper->{'class'}   = 'kanban-item drag';
+        }
+        
         if (!empty($item->color))
         {
             $item_wrapper->{'style'}   = 'border-top: 3px solid '.$item->color;
@@ -303,7 +394,15 @@ class TKanban extends TElement
         
         $item_title = new TElement('div');
         $item_title->{'class'} = 'kanban-item-title';
-        $item_title->add(AdiantiTemplateHandler::replace($item->{'title'}, $item->{'object'}));
+        
+        if (!empty($item->{'title'}))
+        {
+            $item_title->add(AdiantiTemplateHandler::replace($item->{'title'}, $item->{'object'}));
+        }
+        else
+        {
+            $item_title->hide();
+        }
         
         $item_content = new TElement('div');
         $item_content->{'class'} = 'kanban-item-content';
@@ -314,7 +413,16 @@ class TKanban extends TElement
             $item_content = new TElement('div');
             $item_content->{'class'} = 'kanban-item-content';
             $item_template = ApplicationTranslator::translateTemplate($this->itemTemplate);
-            $item_template = AdiantiTemplateHandler::replace($item_template, $item);
+            $item_template = AdiantiTemplateHandler::replace($item_template, $item->{'object'});
+            $item_content->add($item_template);
+        }
+        
+        if (!empty($this->itemTemplateCallback))
+        {
+            $item_content = new TElement('div');
+            $item_content->{'class'} = 'kanban-item-content';
+            $item_template = ApplicationTranslator::translateTemplate(call_user_func($this->itemTemplateCallback, $item->{'object'}));
+            $item_template = AdiantiTemplateHandler::replace($item_template, $item->{'object'});
             $item_content->add($item_template);
         }
         
@@ -339,7 +447,12 @@ class TKanban extends TElement
             $title            = new TElement('span');
             $title->{'class'} = 'kanban-title';
             $title->add(AdiantiTemplateHandler::replace($stage->{'title'}, $stage->{'object'}));
-
+            
+            if (!empty($this->stageDropAction))
+            {
+                $title->{'class'} = 'kanban-title drag';
+            }
+            
             $stageDiv                = new TElement('div');
             $stageDiv->{'stage_id'}  = $stage->{'id'};
             $stageDiv->{'class'}     = 'kanban-stage';
@@ -421,9 +534,10 @@ class TKanban extends TElement
      */
     private function renderStageActions($stage_id, $stage)
     {
-        $icon                  = new TImage('mi:more_vert');
+        $icon = new TImage('fa:ellipsis-vertical');
         $icon->{'data-toggle'} = 'dropdown';
-
+        $icon->{'data-bs-toggle'} = 'dropdown';
+        
         $ul = new TElement('ul');
         $ul->{'class'} = 'dropdown-menu pull-right';
         
@@ -440,6 +554,7 @@ class TKanban extends TElement
                 $action                = new TElement('a');
                 $action->{'generator'} = 'adianti';
                 $action->{'href'}      = $url;
+                $action->{'class'} = "dropdown-item";
                 if (!empty($stageActionTemplate->icon))
                 {
                     $action->add(new TImage($stageActionTemplate->icon));

@@ -110,7 +110,7 @@ abstract class PHPRtfLite_Container_Base implements PHPRtfLite_Freeable
      * @param   PHPRtfLite_ParFormat $parFormat
      * @return  PHPRtfLite_Element
      */
-    public function writeRtfCode($code, PHPRtfLite_Font $font = null, PHPRtfLite_ParFormat $parFormat = null)
+    public function writeRtfCode($code, ?PHPRtfLite_Font $font = null, ?PHPRtfLite_ParFormat $parFormat = null)
     {
         $element = new PHPRtfLite_Element($this->_rtf, $code, $font, $parFormat);
         $element->setIsRtfCode();
@@ -144,7 +144,7 @@ abstract class PHPRtfLite_Container_Base implements PHPRtfLite_Freeable
      * @param   PHPRtfLite_ParFormat  $parFormat
      * @return  PHPRtfLite_Element
      */
-    public function addEmptyParagraph(PHPRtfLite_Font $font = null, PHPRtfLite_ParFormat $parFormat = null)
+    public function addEmptyParagraph(?PHPRtfLite_Font $font = null, ?PHPRtfLite_ParFormat $parFormat = null)
     {
         if ($parFormat === null) {
             $parFormat = new PHPRtfLite_ParFormat();
@@ -182,8 +182,8 @@ abstract class PHPRtfLite_Container_Base implements PHPRtfLite_Freeable
      * @return  PHPRtfLite_Element
      */
     public function writeText($text,
-                              PHPRtfLite_Font $font = null,
-                              PHPRtfLite_ParFormat $parFormat = null,
+                              ?PHPRtfLite_Font $font = null,
+                              ?PHPRtfLite_ParFormat $parFormat = null,
                               $convertTagsToRtf = true)
     {
         $element = new PHPRtfLite_Element($this->_rtf, $text, $font, $parFormat);
@@ -208,8 +208,8 @@ abstract class PHPRtfLite_Container_Base implements PHPRtfLite_Freeable
      */
     public function writeHyperLink($hyperlink,
                                    $text,
-                                   PHPRtfLite_Font $font = null,
-                                   PHPRtfLite_ParFormat $parFormat = null,
+                                   ?PHPRtfLite_Font $font = null,
+                                   ?PHPRtfLite_ParFormat $parFormat = null,
                                    $convertTagsToRtf = true)
     {
         $element = new PHPRtfLite_Element_Hyperlink($this->_rtf, $text, $font, $parFormat);
@@ -254,7 +254,7 @@ abstract class PHPRtfLite_Container_Base implements PHPRtfLite_Freeable
      *
      * @return PHPRtfLite_Image
      */
-    public function addImage($fileName, PHPRtfLite_ParFormat $parFormat = null, $width = null, $height = null)
+    public function addImage($fileName, ?PHPRtfLite_ParFormat $parFormat = null, $width = null, $height = null)
     {
         $image = PHPRtfLite_Image::createFromFile($this->_rtf, $fileName, $width, $height);
         if ($parFormat) {
@@ -281,7 +281,7 @@ abstract class PHPRtfLite_Container_Base implements PHPRtfLite_Freeable
     public function addImageFromString(
         $string,
         $type,
-        PHPRtfLite_ParFormat $parFormat = null,
+        ?PHPRtfLite_ParFormat $parFormat = null,
         $width = null,
         $height = null
     ) {

@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Alert
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage dialog
  * @author     Pablo Dall'Oglio
@@ -23,19 +23,15 @@ class TAlert extends TElement
     public function __construct($type, $message)
     {
         parent::__construct('div');
-        $this->{'class'} = 'talert alert alert-dismissible alert-'.$type;
+        $this->{'class'} = 'talert alert alert-dismissible fade show alert-'.$type;
         $this->{'role'}  = 'alert';
         
         $button = new TElement('button');
         $button->{'type'} = 'button';
-        $button->{'class'} = 'close';
+        $button->{'class'} = 'btn-close';
         $button->{'data-dismiss'} = 'alert';
+        $button->{'data-bs-dismiss'} = 'alert';
         $button->{'aria-label'}   = 'Close';
-        
-        $span = new TElement('span');
-        $span->{'aria-hidden'} = 'true';
-        $span->add('&times;');
-        $button->add($span);
         
         parent::add($button);
         parent::add($message);

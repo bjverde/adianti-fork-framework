@@ -10,7 +10,7 @@ use Exception;
 /**
  * JQuery dialog container
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage container
  * @author     Pablo Dall'Oglio
@@ -68,6 +68,14 @@ class TJQueryDialog extends TElement
     public function disableScrolling()
     {
         $this->{'style'} = "overflow: hidden";
+    }
+    
+    /**
+     * Enable scrolling
+     */
+    public function enableScrolling()
+    {
+        $this->{'style'} = "overflow: auto";
     }
     
     /**

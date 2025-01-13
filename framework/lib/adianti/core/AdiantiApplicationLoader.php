@@ -11,7 +11,7 @@ use Exception;
 /**
  * Application loader
  *
- * @version    7.6
+ * @version    8.0
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -45,11 +45,11 @@ class AdiantiApplicationLoader
         // echo "&nbsp;&nbsp;App loader $class<br>";
         $folders = array();
         $folders[] = 'app/model';
+        $folders[] = 'app/service';
         $folders[] = 'app/control';
+        $folders[] = 'app/helpers';
         $folders[] = 'app/view';
         $folders[] = 'app/lib';
-        $folders[] = 'app/helpers';
-        $folders[] = 'app/service';
         
         // search in app root
         if (file_exists("{$class}.class.php"))

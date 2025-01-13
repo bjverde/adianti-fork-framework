@@ -12,7 +12,7 @@ use Exception;
 /**
  * Color Widget
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio

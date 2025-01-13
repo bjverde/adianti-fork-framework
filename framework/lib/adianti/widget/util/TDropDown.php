@@ -10,7 +10,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * TDropDown Widget
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio
@@ -36,11 +36,19 @@ class TDropDown extends TElement
         $button = new TElement('button');
         $button->{'data-toggle'} = 'dropdown';
         $button->{'class'}       = 'btn btn-default btn-sm dropdown-toggle';
+        $button->{'data-bs-toggle'} = 'dropdown';
         $this->button = $button;
         
         if ($icon)
         {
-            $button->add(new TImage($icon));
+            if ($icon instanceof TImage)
+            {
+                $button->add($icon);
+            }
+            else
+            {
+                $button->add(new TImage($icon));
+            }
         }
         
         if ($title)
@@ -116,8 +124,9 @@ class TDropDown extends TElement
     public function addAction($title, $action, $icon = NULL, $popover = '', $add = true)
     {
         $li = new TElement('li');
-        // $li->{'class'} = "dropdown-item";
+        
         $link = new TElement('a');
+        $link->{'class'} = "dropdown-item";
         
         if ($action instanceof TAction)
         { 
@@ -165,6 +174,7 @@ class TDropDown extends TElement
         $li = new TElement('li');
         
         $link = new TElement('a');
+        $link->{'class'} = "dropdown-item";
         
         if ($action instanceof TAction)
         { 
@@ -278,5 +288,13 @@ class TDropDown extends TElement
     public function clearItems()
     {
         $this->elements->clearChildren();
+    }
+    
+    /**
+     * Get dropdown items
+     */
+    public function getItems()
+    {
+        return $this->elements->getChildren() ?? [];
     }
 }

@@ -12,7 +12,7 @@ use Exception;
 /**
  * ComboBox Widget
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -44,7 +44,7 @@ class TCombo extends TField implements AdiantiWidgetInterface
 
         // creates a <select> tag
         $this->tag = new TElement('select');
-        $this->tag->{'class'}  = 'tcombo'; // CSS
+        $this->tag->{'class'}  = 'tcombo form-select'; // CSS
         $this->tag->{'widget'} = 'tcombo';
         $this->is_boolean = FALSE;
     }

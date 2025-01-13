@@ -7,7 +7,7 @@ use Adianti\Control\TAction;
 /**
  * Pillbar
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage util
  * @author     Pablo Dall'Oglio

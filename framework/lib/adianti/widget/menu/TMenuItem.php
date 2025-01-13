@@ -9,7 +9,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * MenuItem Widget
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage menu
  * @author     Pablo Dall'Oglio
@@ -25,7 +25,7 @@ class TMenuItem extends TElement
     private $level;
     private $link;
     private $linkClass;
-    private $classLink;
+    private $itemClass;
     private $menu_transformer;
     private $tagLabel;
     private $classIcon;
@@ -146,9 +146,9 @@ class TMenuItem extends TElement
     /**
      * Set link class Item
      */
-    public function setClassLink($class)
+    public function setItemClass($class)
     {
-        $this->classLink = $class;
+        $this->itemClass = $class;
     }
 
     /**
@@ -233,9 +233,9 @@ class TMenuItem extends TElement
             $this->add($this->link);
         }
         
-        if ($this->classLink)
+        if ($this->itemClass)
         {
-            $this->link->{'class'} = $this->classLink;
+            $this->link->{'class'} = $this->itemClass;
         }
 
         if ($this->menu instanceof TMenu)

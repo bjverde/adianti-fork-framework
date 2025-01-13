@@ -10,7 +10,7 @@ use ApplicationTranslator;
 /**
  * Html Renderer
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage template
  * @author     Pablo Dall'Oglio

@@ -10,7 +10,7 @@ use Adianti\Widget\Base\TScript;
 /**
  * Label Widget
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -88,7 +88,7 @@ class TLabel extends TField implements AdiantiWidgetInterface
      */
     public function setFontSize($size)
     {
-        $this->embedStyle->{'font_size'}    = (strpos($size, 'px') or strpos($size, 'pt')) ? $size : $size.'pt';
+        $this->embedStyle->{'font_size'} = (is_numeric($size) ? $size.'pt' : $size);
     }
     
     /**
@@ -129,6 +129,15 @@ class TLabel extends TField implements AdiantiWidgetInterface
     public function setFontColor($color)
     {
         $this->embedStyle->{'color'} = $color;
+    }
+    
+    /**
+     * Define the text align
+     * @param $align Text Align
+     */
+    public function setTextAlign($align)
+    {
+        $this->embedStyle->{'text-align'} = $align;
     }
     
     /**

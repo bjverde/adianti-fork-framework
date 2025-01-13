@@ -8,7 +8,7 @@ use Adianti\Core\AdiantiCoreTranslator;
 /**
  * Template manipulation
  *
- * @version    7.6
+ * @version    8.0
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -39,11 +39,12 @@ class AdiantiTemplateHandler
             }
         }
         
-        if (preg_match_all('/\{(.*?)\}/', $content, $matches) )
+        if (preg_match_all('/\{(.*?)\}/', (string) $content, $matches) )
         {
             foreach ($matches[0] as $match)
             {
                 $property = substr($match, 1, -1);
+                $replace = false;
                 
                 if (strpos($property, '->') !== FALSE)
                 {
@@ -62,18 +63,23 @@ class AdiantiTemplateHandler
                         }
                     }
                     $value = $result;
+                    $replace = true;
                 }
-                else
+                else if (preg_match('/^[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/', $property))
                 {
-                    $value    = $object->$property;
+                    $value = $object->$property;
+                    $replace = true;
                 }
                 
-                if ($cast)
+                if ($replace)
                 {
-                    settype($value, $cast);
+                    if ($cast)
+                    {
+                        settype($value, $cast);
+                    }
+                    
+                    $content  = str_replace($match, (string) $value, $content);
                 }
-                
-                $content  = str_replace($match, (string) $value, $content);
             }
         }
         
@@ -85,6 +91,16 @@ class AdiantiTemplateHandler
      */
     public static function evaluateExpression($expression)
     {
+        if ($expression == '0')
+        {
+            return $expression;
+        }
+        
+        if (strpos($expression, '[') !== false)
+        {
+            return $expression;
+        }
+        
         $parser = new Parser;
         $expression = str_replace('+', ' + ', $expression);
         $expression = str_replace('-', ' - ', $expression);

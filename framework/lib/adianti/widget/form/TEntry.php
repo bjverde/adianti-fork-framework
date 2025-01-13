@@ -13,7 +13,7 @@ use Exception;
 /**
  * Entry Widget
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -144,7 +144,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
         $tho_pattern = $thousandSeparator == '.' ? '\\.' : $thousandSeparator;
         
         //$this->tag->{'pattern'}   = '^\\$?(([1-9](\\d*|\\d{0,2}('.$tho_pattern.'\\d{3})*))|0)('.$dec_pattern.'\\d{1,2})?$';
-        $this->tag->{'pattern'}   = '^\\$?(([1-9](\\d*|\\d{0,'.$decimals.'}('.$tho_pattern.'\\d{3})*))|0)('.$dec_pattern.'\\d{1,'.$decimals.'})?$';
+        $this->tag->{'pattern'}   = '^([-+,0-9.]+)\\$?(([1-9](\\d*|\\d{0,'.$decimals.'}('.$tho_pattern.'\\d{3})*))|0)('.$dec_pattern.'\\d{1,'.$decimals.'})?$';
         $this->tag->{'inputmode'} = 'numeric';
         $this->tag->{'data-nmask'}  = $decimals.$decimalsSeparator.$thousandSeparator;
     }
@@ -485,7 +485,7 @@ class TEntry extends TField implements AdiantiWidgetInterface
         // verify if the widget is non-editable
         if (!parent::getEditable())
         {
-            parent::disableField($this->formName, $this->name);
+            parent::disableField($this->formName, $this->id);
         }
     }
 }

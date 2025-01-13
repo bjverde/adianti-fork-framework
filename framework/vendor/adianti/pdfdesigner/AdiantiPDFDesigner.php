@@ -268,6 +268,7 @@ class AdiantiPDFDesigner extends FPDF
         $height_factor['Times'] = 0.42;
         $text = str_replace( array_keys($this->replaces), array_values($this->replaces), $text );
         
+        $size = (float) $size;
         $x = $x - 2;
         $y = $y + ($size * $height_factor[ $font ]) - (30 * (1/$size));
         if ($shadowoffset > 0)
@@ -320,8 +321,7 @@ class AdiantiPDFDesigner extends FPDF
     public function generate()
     {
         $this->AddPage( $this->orientation, $this->format );
-        $style = '';
-
+        
         foreach ($this->elements as $element)
         {
             if (isset($element['class']))
@@ -337,7 +337,7 @@ class AdiantiPDFDesigner extends FPDF
                         break;
                         
                     case 'Text':
-                        $this->makeText($element['x'], $element['y'], $element['text'], $element['size'], $element['font'], $style, $element['color'], $element['shadowoffset'], $element['shadowcolor']);
+                        $this->makeText($element['x'], $element['y'], $element['text'], $element['size'], $element['font'], $element['style'], $element['color'], $element['shadowoffset'], $element['shadowcolor']);
                         break;
                         
                     case 'Line':

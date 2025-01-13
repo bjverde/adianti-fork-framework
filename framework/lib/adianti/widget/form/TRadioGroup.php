@@ -16,7 +16,7 @@ use Exception;
 /**
  * A group of RadioButton's
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -46,7 +46,7 @@ class TRadioGroup extends TField implements AdiantiWidgetInterface
     {
         parent::__construct($name);
         parent::setSize(NULL);
-        $this->labelClass = 'tcheckgroup_label ';
+        $this->labelClass = 'tcheckgroup_label form-check-label';
         $this->useButton  = FALSE;
         $this->is_boolean = FALSE;
     }
@@ -174,7 +174,7 @@ class TRadioGroup extends TField implements AdiantiWidgetInterface
      */
     public function setUseButton()
     {
-       $this->labelClass = 'btn btn-default ';
+       $this->labelClass = 'btn btn-outline-default ';
        $this->useButton  = TRUE;
     }
     
@@ -371,7 +371,6 @@ class TRadioGroup extends TField implements AdiantiWidgetInterface
             {
                 $button = $this->buttons[$index];
                 $button->setName($this->name);
-                $active = FALSE;
                 $id = $button->getId();
                 
                 // check if contains any value
@@ -379,29 +378,20 @@ class TRadioGroup extends TField implements AdiantiWidgetInterface
                 {
                     // mark as checked
                     $button->setProperty('checked', '1');
-                    $active = TRUE;
                 }
                 
                 // create the label for the button
                 $obj = $this->labels[$index];
-                $obj->{'class'} = $this->labelClass. ($active?'active':'');
+                $obj->{'class'} = $this->labelClass;
                 
                 if ($this->getSize() AND !$obj->getSize())
                 {
                     $obj->setSize($this->getSize());
                 }
                 
-                if ($this->getSize() AND $this->useButton)
+                if ($this->getSize() AND !$obj->getSize())
                 {
-                    if (strpos($this->getSize(), '%') !== FALSE)
-                    {
-                        $size = str_replace('%', '', $this->getSize());
-                        $obj->setSize( ($size / count($this->items)) . '%');
-                    }
-                    else
-                    {
-                        $obj->setSize($this->getSize());
-                    }
+                    $obj->setSize($this->getSize());
                 }
                 
                 // check whether the widget is non-editable
@@ -433,20 +423,19 @@ class TRadioGroup extends TField implements AdiantiWidgetInterface
                 
                 if ($this->useButton)
                 {
-                    $obj->add($button);
-                    $obj->show();
+                    $button->setProperty('class', 'btn-check');
                 }
                 else
                 {
-                    $button->setProperty('class', 'filled-in');
-                    $obj->{'for'} = $button->getId();
-                    
-                    $wrapper = new TElement('div');
-                    $wrapper->{'style'} = 'display:inline-flex;align-items:center;';
-                    $wrapper->add($button);
-                    $wrapper->add($obj);
-                    $wrapper->show();
+                    $button->setProperty('class', 'form-check-input');
                 }
+                $obj->{'for'} = $button->getId();
+                
+                $wrapper = new TElement('div');
+                $wrapper->{'style'} = 'display:inline-flex;align-items:center;';
+                $wrapper->add($button);
+                $wrapper->add($obj);
+                $wrapper->show();
                 
                 $i ++;
                 

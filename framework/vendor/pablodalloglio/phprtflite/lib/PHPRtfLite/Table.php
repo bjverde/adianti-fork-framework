@@ -408,8 +408,8 @@ class PHPRtfLite_Table implements PHPRtfLite_Freeable
     public function writeToCell($rowIndex,
                                 $columnIndex,
                                 $text,
-                                PHPRtfLite_Font $font = null,
-                                PHPRtfLite_ParFormat $parFormat = null,
+                                ?PHPRtfLite_Font $font = null,
+                                ?PHPRtfLite_ParFormat $parFormat = null,
                                 $convertTagsToRtf = true)
     {
         $cell = $this->getCell($rowIndex, $columnIndex);
@@ -435,7 +435,7 @@ class PHPRtfLite_Table implements PHPRtfLite_Freeable
         $rowIndex,
         $columnIndex,
         $file,
-        PHPRtfLite_ParFormat $parFormat = null,
+        ?PHPRtfLite_ParFormat $parFormat = null,
         $width = null,
         $height = null
     ) {
@@ -461,7 +461,7 @@ class PHPRtfLite_Table implements PHPRtfLite_Freeable
         $columnIndex,
         $imageString,
         $type,
-        PHPRtfLite_ParFormat $parFormat = null,
+        ?PHPRtfLite_ParFormat $parFormat = null,
         $width = null,
         $height = null
     ) {

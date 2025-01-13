@@ -11,7 +11,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * Html Editor
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -180,6 +180,18 @@ class THtmlEditor extends TField implements AdiantiWidgetInterface
     }
     
     /**
+     * Insert html
+     * @param $form_name Form name
+     * @param $field Field name
+     * @param $content Text content
+     */
+    public static function insertHTML($form_name, $field, $content)
+    {
+        $content64 = base64_encode($content);
+        TScript::create( " thtmleditor_insert_html('{$form_name}', '{$field}', '{$content64}'); " );
+    }
+    
+    /**
      * Show the widget
      */
     public function show()
@@ -194,6 +206,7 @@ class THtmlEditor extends TField implements AdiantiWidgetInterface
         // add the content to the textarea
         $this->tag->add(htmlspecialchars( (string) $this->value));
         
+        $this->tag->style = 'width:1px;height:1px;position: absolute;left: 10px;top: 10px;';
         // show the tag
         $div = new TElement('div');
         $div->{'style'} = 'display: none';

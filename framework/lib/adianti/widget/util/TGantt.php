@@ -61,8 +61,8 @@ class TGantt extends TElement
     const MODE_DAYS_WITH_HOUR  = 'MODE_DAYS_WITH_HOUR';
     const MODE_MONTHS_WITH_DAY = 'MODE_MONTHS_WITH_DAY';
 
-    const HOURS    = ['00', '01', '12', '18'];
-    const HOURS_24 = ['00', '01','02','03', '04','05','06', '07', '08','09','10','11', '12', '13', '14', '15', '16', '17', '18', '19','20','21','22','23'];
+    const HOURS    = ['00', '06', '12', '18'];
+    const HOURS_24 = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
 
     const SIZES         = ['xs', 'sm', 'md', 'lg'];
     const SIZESPX       = [30, 60, 120, 240];
@@ -283,7 +283,7 @@ class TGantt extends TElement
      * @param $label String Button label
      * @param $icon TImage Button icon
      */
-    public function addHeaderAction(TAction $action, $label = '', TImage $icon = null)
+    public function addHeaderAction(TAction $action, $label = '', ?TImage $icon = null)
     {
         $button = new TElement('button');
 
@@ -588,7 +588,8 @@ class TGantt extends TElement
             {
                 $tableRow = $tableAside->addRow();
                 $cell = $tableRow->addCell( $row->{'title'} );
-    
+                $cell->{'title'} = $row->{'title'};
+                
                 if (strip_tags($row->{'title'}) == $row->{'title'})
                 {
                     $cell->{'style'} = 'padding: 15px';
@@ -1067,7 +1068,7 @@ class TGantt extends TElement
         
         $panel = new TElement( 'div' );
         $panel->{'id'} = $this->id;
-        $panel->{'class'} = 'panel panel-default tgantt';
+        $panel->{'class'} = 'card panel panel-default tgantt';
         $panel->add( $this->renderHeader() );
         $panel->add( $this->renderGantt() );
         $panel->show();

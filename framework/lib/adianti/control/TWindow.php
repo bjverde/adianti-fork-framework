@@ -1,6 +1,7 @@
 <?php
 namespace Adianti\Control;
 
+use Adianti\Widget\Base\TElement;
 use Adianti\Control\TAction;
 use Adianti\Core\AdiantiCoreTranslator;
 use Adianti\Widget\Container\TJQueryDialog;
@@ -12,19 +13,27 @@ use Exception;
 /**
  * Window Container (JQueryDialog wrapper)
  *
- * @version    7.6
+ * @version    8.0
  * @package    control
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
  * @license    https://adiantiframework.com.br/license
  */
-class TWindow extends TPage
+#[\AllowDynamicProperties]
+class TWindow extends TElement
 {
     private $wrapper;
     
+    use AdiantiPageControlTrait;
+    
+    /**
+     * Constructor method
+     */
     public function __construct()
     {
-        parent::__construct();
+        parent::__construct('div');
+        $this->{'page-name'} = $this->getClassName();
+        $this->{'page_name'} = $this->getClassName();
         
         $this->wrapper = new TJQueryDialog;
         $this->wrapper->setUseOKButton(FALSE);
@@ -139,6 +148,14 @@ class TWindow extends TPage
     }
     
     /**
+     * Enable scrolling
+     */
+    public function enableScrolling()
+    {
+        $this->wrapper->enableScrolling();
+    }
+    
+    /**
      * Define the window's size
      * @param  $width  Window's width
      * @param  $height Window's height
@@ -241,5 +258,17 @@ class TWindow extends TPage
     public static function closeWindowByName($name)
     {
         TScript::create( ' $(\'[window_name="'.$name.'"]\').remove(); ' );
+    }
+    
+    /**
+     * Decide wich action to take and show the page
+     */
+    public function show()
+    {
+        if (!$this->getIsWrapped())
+        {
+            $this->run();
+        }
+        parent::show();
     }
 }

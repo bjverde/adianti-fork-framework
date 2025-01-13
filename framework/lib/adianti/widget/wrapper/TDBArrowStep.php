@@ -8,7 +8,7 @@ use Adianti\Widget\Wrapper\AdiantiDatabaseWidgetTrait;
 /**
  * Database Arrow Step
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage util
  * @author     Lucas Tomasi
@@ -41,7 +41,7 @@ class TDBArrowStep extends TArrowStep
      * @param  $ordercolumn column to order the fields (optional)
      * @param  $criteria criteria (TCriteria object) to filter the model (optional)
      */
-    public function __construct($name, $database, $model, $key, $value, $ordercolumn = NULL, TCriteria $criteria = NULL)
+    public function __construct($name, $database, $model, $key, $value, $ordercolumn = NULL, ?TCriteria $criteria = NULL)
     {
         // executes the parent class constructor
         parent::__construct($name);

@@ -65,10 +65,10 @@ class PHPRtfLite_Border
      * @param PHPRtfLite_Border_Format  $bottom
      */
     public function __construct(PHPRtfLite $rtf,
-                                PHPRtfLite_Border_Format $left  = null,
-                                PHPRtfLite_Border_Format $top   = null,
-                                PHPRtfLite_Border_Format $right = null,
-                                PHPRtfLite_Border_Format $bottom = null)
+                                ?PHPRtfLite_Border_Format $left  = null,
+                                ?PHPRtfLite_Border_Format $top   = null,
+                                ?PHPRtfLite_Border_Format $right = null,
+                                ?PHPRtfLite_Border_Format $bottom = null)
     {
         $this->_rtf = $rtf;
         if ($left) {

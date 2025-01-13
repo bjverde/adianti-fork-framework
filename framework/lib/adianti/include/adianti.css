@@ -1,3 +1,19 @@
+#adianti_right_panel .panel[widget="bootstrapformbuilder"]
+{
+    border:0;
+    box-shadow:none;
+}
+
+#adianti_right_panel > div > div.panel
+{
+    border:0;
+}
+
+#adianti_right_panel > div > div.panel > div.panel-heading
+{
+    border-top: 0;
+}
+
 table
 {
     display: table;
@@ -11,29 +27,10 @@ table tr td
     padding: 1px;
 }
 
-.btn
-{
-    padding: 4px 8px;
-}
-
-.btn-group-sm > .btn
-{
-    padding: 2px 10px;
-}
-
-.navbar
-{
-    min-height: 42px;
-}
 
 .popover
 {
     z-index: 2060;
-}
-
-.btn-group > .btn, .btn-group > .dropdown-menu, .btn-group > .popover
-{
-    font-size: 12px;
 }
 
 .ui-widget
@@ -165,6 +162,7 @@ table tr td
 .form-group
 {
     margin-bottom: 7px;
+    position: relative;
 }
 
 /* latin */

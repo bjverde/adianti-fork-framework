@@ -539,7 +539,7 @@ class PHPRtfLite
      * @param  PHPRtfLite_Container_Section $section
      * @return PHPRtfLite_Container_Section
      */
-    public function addSection(PHPRtfLite_Container_Section $section = null)
+    public function addSection(?PHPRtfLite_Container_Section $section = null)
     {
         if ($section === null) {
             $section = new PHPRtfLite_Container_Section($this);
@@ -1049,7 +1049,7 @@ class PHPRtfLite
      *
      * @return  PHPRtfLite_Container_Header
      */
-    public function addHeader($type = PHPRtfLite_Container_Header::TYPE_ALL, PHPRtfLite_Container_Header $header = null)
+    public function addHeader($type = PHPRtfLite_Container_Header::TYPE_ALL, ?PHPRtfLite_Container_Header $header = null)
     {
         if ($header === null) {
             $header = new PHPRtfLite_Container_Header($this, $type);
@@ -1089,7 +1089,7 @@ class PHPRtfLite
      *
      * @return  PHPRtfLite_Container_Footer
      */
-    public function addFooter($type = PHPRtfLite_Container_Footer::TYPE_ALL, PHPRtfLite_Container_Footer $footer = null)
+    public function addFooter($type = PHPRtfLite_Container_Footer::TYPE_ALL, ?PHPRtfLite_Container_Footer $footer = null)
     {
         if ($footer === null) {
             $footer = new PHPRtfLite_Container_Footer($this, $type);

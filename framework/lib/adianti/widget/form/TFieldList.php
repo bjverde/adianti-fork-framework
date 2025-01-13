@@ -16,7 +16,7 @@ use stdClass;
 /**
  * Create a field list
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -111,7 +111,7 @@ class TFieldList extends TTable
                 $field_name = str_replace($this->field_prefix . '_', '', $field_name);
             }
             
-            if ($values)
+            if (is_array($values))
             {
                 foreach ($values as $row => $value)
                 {
@@ -222,7 +222,7 @@ class TFieldList extends TTable
     /**
      * Set the remove action
      */
-    public function setRemoveAction(TAction $action = null, $icon = null, $title = null)
+    public function setRemoveAction(?TAction $action = null, $icon = null, $title = null)
     {
         if ($action)
         {
@@ -407,7 +407,7 @@ class TFieldList extends TTable
      * Add detail row
      * @param $item Data object
      */
-    public function addDetail( $item )
+    public function addDetail( $item, ?Callable $callback = null )
     {
         $uniqid = mt_rand(1000000, 9999999);
         $field_list_name = $this->{'name'};
@@ -517,6 +517,11 @@ class TFieldList extends TTable
                         $clone->setValue( null );
                     }
                 }
+                
+                if ($callback)
+                {
+                    $callback($clone);
+                }
             }
             
             if ($this->row_actions)
@@ -573,7 +578,7 @@ class TFieldList extends TTable
     /**
      * Add clone action
      */
-    public function addCloneAction(TAction $clone_action = null, $icon = null, $title = null)
+    public function addCloneAction(?TAction $clone_action = null, $icon = null, $title = null)
     {
         if (!$this->body_created)
         {

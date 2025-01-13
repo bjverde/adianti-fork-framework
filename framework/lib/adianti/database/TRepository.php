@@ -6,6 +6,7 @@ use Adianti\Database\TRecord;
 use Adianti\Database\TCriteria;
 use Adianti\Database\TFilter;
 use Adianti\Database\TSqlSelect;
+use Adianti\Database\TSqlUpdate;
 
 use PDO;
 use Exception;
@@ -15,7 +16,7 @@ use ReflectionClass;
 /**
  * Implements the Repository Pattern to deal with collections of Active Records
  *
- * @version    7.6
+ * @version    8.0
  * @package    database
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -29,6 +30,7 @@ class TRepository
     protected $setValues;
     protected $columns;
     protected $aggregates;
+    protected $joins;
     protected $colTransformers;
     
     /**
@@ -74,14 +76,47 @@ class TRepository
         $this->trashed = true;
         return $this;
     }
-
+    
+    /**
+     *
+     */
+    public function join($table, $conditions)
+    {
+        if (empty($this->joins))
+        {
+            $this->joins = [];
+        }
+        $this->joins[$table] = $conditions;
+        
+        return $this;
+    }
+    
     /**
      * Returns the name of database entity
      * @return A String containing the name of the entity
      */
     protected function getEntity()
     {
-        return constant($this->class.'::TABLENAME');
+        $table = constant($this->class.'::TABLENAME');
+        
+        if ($this->joins)
+        {
+            $expr = '';
+            foreach ($this->joins as $join_table => $conditions)
+            {
+                $expr .= ' INNER JOIN '. $join_table .  ' ON ';
+                $filters = [];
+                foreach ($conditions as $cond_key => $cond_value)
+                {
+                    $filters[] = "{$cond_key} = {$cond_value}";
+                }
+                $expr .= implode(' AND ', $filters);
+            }
+            
+            return $table . $expr;
+        }
+        
+        return $table;
     }
     
     /**
@@ -130,6 +165,16 @@ class TRepository
         }
         
         $this->criteria->add(new TFilter($variable, $operator, $value, $value2), $logicOperator);
+        
+        return $this;
+    }
+    
+    /**
+     * Add a filter
+     */
+    public function addFilter(TFilter $filter)
+    {
+        $this->criteria->add($filter);
         
         return $this;
     }
@@ -226,7 +271,7 @@ class TRepository
      * @param $callObjectLoad  If load() method from Active Records must be called to load object parts
      * @return                 An array containing the Active Records
      */
-    public function load(TCriteria $criteria = NULL, $callObjectLoad = TRUE)
+    public function load(?TCriteria $criteria = NULL, $callObjectLoad = TRUE)
     {
         if (!$criteria)
         {
@@ -240,11 +285,18 @@ class TRepository
         {
             $criteria->add(new TFilter($deletedat, 'IS', NULL));
         }
-
+        
+        $prefilters = $class::getPrefilters();
+        if ($prefilters)
+        {
+            $criteria->add(TCriteria::create($prefilters));
+        }
+        
         // creates a SELECT statement
         $sql = new TSqlSelect;
         $sql->addColumn($this->getAttributeList());
         $sql->setEntity($this->getEntity());
+        
         // assign the criteria to the SELECT statement
         $sql->setCriteria($criteria);
         
@@ -262,7 +314,7 @@ class TRepository
             else
             {
                 // execute the query
-                $result= $conn-> query($sql->getInstruction());
+                $result = $conn-> query($sql->getInstruction());
             }
             $results = array();
             
@@ -282,7 +334,8 @@ class TRepository
                     {
                         $object->onAfterLoadCollection($raw);
                     }
-                    $object->fromArray( (array) $raw);
+                    $check_attribute_list = (empty($this->columns) || empty($this->joins));
+                    $object->fromArray( (array) $raw, $check_attribute_list);
                     
                     if ($callObjectLoad)
                     {
@@ -292,6 +345,8 @@ class TRepository
                             $object->reload();
                         }
                     }
+                    
+                    $object->runReaders();
                     
                     if ( ($cache = $object->getCacheControl()) && empty($this->columns))
                     {
@@ -370,7 +425,7 @@ class TRepository
     /**
      * Update values in the repository
      */
-    public function update($setValues = NULL, TCriteria $criteria = NULL)
+    public function update($setValues = NULL, ?TCriteria $criteria = NULL)
     {
         if (!$criteria)
         {
@@ -383,7 +438,13 @@ class TRepository
         {
             $criteria->add(new TFilter($deletedat, 'IS', NULL));
         }
-
+        
+        $prefilters = $class::getPrefilters();
+        if ($prefilters)
+        {
+            $criteria->add(TCriteria::create($prefilters));
+        }
+        
         $setValues = isset($setValues) ? $setValues : $this->setValues;
         
         $class = $this->class;
@@ -474,7 +535,7 @@ class TRepository
      * @param $criteria  An TCriteria object, specifiyng the filters
      * @return           The affected rows
      */
-    public function delete(TCriteria $criteria = NULL, $callObjectLoad = FALSE)
+    public function delete(?TCriteria $criteria = NULL, $callObjectLoad = FALSE)
     {
         if (!$criteria)
         {
@@ -490,6 +551,12 @@ class TRepository
         }
         
         $class = $this->class;
+        
+        $prefilters = $class::getPrefilters();
+        if ($prefilters)
+        {
+            $criteria->add(TCriteria::create($prefilters));
+        }
         
         // get the connection of the active transaction
         if ($conn = TTransaction::get())
@@ -599,7 +666,7 @@ class TRepository
      * @param $criteria  An TCriteria object, specifiyng the filters
      * @return           An Integer containing the amount of objects that satisfy the criteria
      */
-    public function count(TCriteria $criteria = NULL)
+    public function count(?TCriteria $criteria = NULL)
     {
         if (!$criteria)
         {
@@ -613,11 +680,18 @@ class TRepository
         {
             $criteria->add(new TFilter($deletedat, 'IS', NULL));
         }
-
+        
+        $prefilters = $class::getPrefilters();
+        if ($prefilters)
+        {
+            $criteria->add(TCriteria::create($prefilters));
+        }
+        
         // creates a SELECT statement
         $sql = new TSqlSelect;
         $sql->addColumn('count(*)');
         $sql->setEntity($this->getEntity());
+        
         // assign the criteria to the SELECT statement
         $sql->setCriteria($criteria);
         
@@ -657,7 +731,7 @@ class TRepository
      * @param $column  Column to be aggregated
      * @return         An array of objects or the total value (if does not have group by)
      */
-    public function countDistinctBy($column, $alias = null, Callable $transformation = null)
+    public function countDistinctBy($column, $alias = null, ?Callable $transformation = null)
     {
         $alias = is_null($alias) ? $column : $alias;
         return $this->aggregate('count', 'distinct ' . $column, $alias, $transformation);
@@ -669,7 +743,7 @@ class TRepository
      * @param $alias   Column alias
      * @return         An array of objects or the total value (if does not have group by)
      */
-    public function countBy($column, $alias = null, Callable $transformation = null)
+    public function countBy($column, $alias = null, ?Callable $transformation = null)
     {
         return $this->aggregate('count', $column, $alias, $transformation);
     }
@@ -680,7 +754,7 @@ class TRepository
      * @param $alias   Column alias
      * @return         self object
      */
-    public function countByAnd($column, $alias = null, Callable $transformation = null)
+    public function countByAnd($column, $alias = null, ?Callable $transformation = null)
     {
         $this->aggregates[] = ['count', $column, $alias, $transformation];
         return $this;
@@ -692,7 +766,7 @@ class TRepository
      * @param $alias   Column alias
      * @return         An array of objects or the total value (if does not have group by)
      */
-    public function sumBy($column, $alias = null, Callable $transformation = null)
+    public function sumBy($column, $alias = null, ?Callable $transformation = null)
     {
         return $this->aggregate('sum', $column, $alias, $transformation);
     }
@@ -703,7 +777,7 @@ class TRepository
      * @param $alias   Column alias
      * @return         self object
      */
-    public function sumByAnd($column, $alias = null, Callable $transformation = null)
+    public function sumByAnd($column, $alias = null, ?Callable $transformation = null)
     {
         $this->aggregates[] = ['sum', $column, $alias, $transformation];
         return $this;
@@ -715,7 +789,7 @@ class TRepository
      * @param $alias   Column alias
      * @return         An array of objects or the total value (if does not have group by)
      */
-    public function avgBy($column, $alias = null, Callable $transformation = null)
+    public function avgBy($column, $alias = null, ?Callable $transformation = null)
     {
         return $this->aggregate('avg', $column, $alias, $transformation);
     }
@@ -726,7 +800,7 @@ class TRepository
      * @param $alias   Column alias
      * @return         self object
      */
-    public function avgByAnd($column, $alias = null, Callable $transformation = null)
+    public function avgByAnd($column, $alias = null, ?Callable $transformation = null)
     {
         $this->aggregates[] = ['avg', $column, $alias, $transformation];
         return $this;
@@ -738,7 +812,7 @@ class TRepository
      * @param $alias   Column alias
      * @return         An array of objects or the total value (if does not have group by)
      */
-    public function minBy($column, $alias = null, Callable $transformation = null)
+    public function minBy($column, $alias = null, ?Callable $transformation = null)
     {
         return $this->aggregate('min', $column, $alias, $transformation);
     }
@@ -749,7 +823,7 @@ class TRepository
      * @param $alias   Column alias
      * @return         self object
      */
-    public function minByAnd($column, $alias = null, Callable $transformation = null)
+    public function minByAnd($column, $alias = null, ?Callable $transformation = null)
     {
         $this->aggregates[] = ['min', $column, $alias, $transformation];
         return $this;
@@ -761,7 +835,7 @@ class TRepository
      * @param $alias   Column alias
      * @return         An array of objects or the total value (if does not have group by)
      */
-    public function maxBy($column, $alias = null, Callable $transformation = null)
+    public function maxBy($column, $alias = null, ?Callable $transformation = null)
     {
         return $this->aggregate('max', $column, $alias, $transformation);
     }
@@ -772,7 +846,7 @@ class TRepository
      * @param $alias   Column alias
      * @return         self object
      */
-    public function maxByAnd($column, $alias = null, Callable $transformation = null)
+    public function maxByAnd($column, $alias = null, ?Callable $transformation = null)
     {
         $this->aggregates[] = ['max', $column, $alias, $transformation];
         return $this;
@@ -783,7 +857,7 @@ class TRepository
      * @param $function Aggregate function (count, sum, min, max, avg)
      * @return          An array of objects or the total value (if does not have group by)
      */
-    protected function aggregate($function, $column, $alias = null, Callable $transformation = null)
+    protected function aggregate($function, $column, $alias = null, ?Callable $transformation = null)
     {
         $criteria = isset($this->criteria) ? $this->criteria : new TCriteria;
         
@@ -793,6 +867,12 @@ class TRepository
         if (!$this->trashed && $deletedat)
         {
             $criteria->add(new TFilter($deletedat, 'IS', NULL));
+        }
+        
+        $prefilters = $class::getPrefilters();
+        if ($prefilters)
+        {
+            $criteria->add(TCriteria::create($prefilters));
         }
         
         $alias = $alias ? $alias : $column;
@@ -905,7 +985,7 @@ class TRepository
     /**
      * Alias for load()
      */
-    public function get(TCriteria $criteria = NULL, $callObjectLoad = TRUE)
+    public function get(?TCriteria $criteria = NULL, $callObjectLoad = TRUE)
     {
         return $this->load($criteria, $callObjectLoad);
     }
@@ -1008,5 +1088,25 @@ class TRepository
         }
 
         return NULL;
+    }
+    
+    /**
+     * Get an attribute list from a collection
+     */
+    public static function getCollectionAttribute($collection, $attribute)
+    {
+        $attribute_list = [];
+        
+        if ($collection)
+        {
+            foreach ($collection as $object)
+            {
+                if (isset($object->$attribute))
+                {
+                    $attribute_list[] = $object->$attribute;
+                }
+            }
+        }
+        return $attribute_list;
     }
 }

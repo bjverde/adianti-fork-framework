@@ -4,7 +4,7 @@ namespace Adianti\Widget\Base;
 /**
  * Base class for all HTML Elements
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage base
  * @author     Pablo Dall'Oglio
@@ -22,6 +22,7 @@ class TElement
     protected $children;
     private static $voidelements;
     private $hidden;
+    private $isVoidElement;
     
     /**
      * Class Constructor
@@ -36,12 +37,20 @@ class TElement
         $this->wrapped = FALSE;
         $this->hidden = FALSE;
         $this->properties = [];
-        
+        $this->isVoidElement = FALSE;
         if (empty(self::$voidelements))
         {
             self::$voidelements = array('area', 'base', 'br', 'col', 'command', 'embed', 'hr',
                                         'img', 'input', 'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr');
         }
+    }
+    
+    /**
+     * Turn element into a void element
+     */
+    public function enableVoidElement()
+    {
+        $this->isVoidElement = TRUE;
     }
     
     /**
@@ -267,6 +276,21 @@ class TElement
     }
     
     /**
+     * Add many children
+     * @param $children Array of child
+     */
+    public function addMany($children)
+    {
+        if ($children)
+        {
+            foreach ($children as $child)
+            {
+                $this->add($child);
+            }
+        }
+    }
+    
+    /**
      * Insert an child element
      * @param $position Element position
      * @param $child Any object that implements the show() method
@@ -402,7 +426,7 @@ class TElement
             }
         }
         
-        if (in_array($this->tagname, self::$voidelements))
+        if ( in_array($this->tagname, self::$voidelements) || $this->isVoidElement )
         {
             echo '/>';
         }

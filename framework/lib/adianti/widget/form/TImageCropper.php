@@ -13,7 +13,7 @@ use Adianti\Widget\Util\TImage;
 /**
  * Image uploader with cropper
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage form
  * @author     Lucas Tomasi
@@ -81,7 +81,7 @@ class TImageCropper extends TField implements AdiantiWidgetInterface
         $this->webcam = false;
         $this->setSize('100%', 100);
 
-        $this->imagePlaceholder = new TImage('fa:image placeholder');
+        $this->imagePlaceholder = new TImage('fa:image image-placeholder');
     }
 
     /**
@@ -91,7 +91,7 @@ class TImageCropper extends TField implements AdiantiWidgetInterface
      */
     public function setImagePlaceholder(TImage $image)
     {
-        $image->{'class'} .= ' placeholder';
+        $image->{'class'} .= ' image-placeholder';
 
         $this->imagePlaceholder = $image;
     }

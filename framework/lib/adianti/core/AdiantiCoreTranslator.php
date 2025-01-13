@@ -4,7 +4,7 @@ namespace Adianti\Core;
 /**
  * Framework translation class for internal messages
  *
- * @version    7.6
+ * @version    8.0
  * @package    core
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -169,6 +169,15 @@ class AdiantiCoreTranslator
         $this->messages['en'][] = 'Small';
         $this->messages['en'][] = 'Condensed';
         $this->messages['en'][] = 'Extension not found: ^1';
+        $this->messages['en'][] = 'Click to search';
+        $this->messages['en'][] = 'No results';
+        $this->messages['en'][] = 'selected';
+        $this->messages['en'][] = 'Select all';
+        $this->messages['en'][] = 'Clear the selection';
+        $this->messages['en'][] = 'None selected';
+        $this->messages['en'][] = 'Found (^1) records in "^2". Record cannot be deleted';
+        $this->messages['en'][] = 'Database not found';
+        $this->messages['en'][] = 'Unsupported type';
         
         $this->messages['pt'][] = 'Carregando';
         $this->messages['pt'][] = 'Arquivo não encontrado';
@@ -315,6 +324,15 @@ class AdiantiCoreTranslator
         $this->messages['pt'][] = 'Pequeno';
         $this->messages['pt'][] = 'Condensado';
         $this->messages['pt'][] = 'Extensão não encontrada: ^1';
+        $this->messages['pt'][] = 'Clique para buscar';
+        $this->messages['pt'][] = 'Sem resultados';
+        $this->messages['pt'][] = 'selecionados';
+        $this->messages['pt'][] = 'Selecionar todos';
+        $this->messages['pt'][] = 'Limpar seleção';
+        $this->messages['pt'][] = 'Nenhum selecionado';
+        $this->messages['pt'][] = 'Encontrados (^1) registros em "^2". O registro não pode ser excluído';
+        $this->messages['pt'][] = 'Banco de dados não encontrado';
+        $this->messages['pt'][] = 'Tipo não suportado';
         
         $this->messages['es'][] = 'Cargando';
         $this->messages['es'][] = 'Archivo no encontrado';
@@ -461,6 +479,16 @@ class AdiantiCoreTranslator
         $this->messages['es'][] = 'Pequeño';
         $this->messages['es'][] = 'Condensado';
         $this->messages['es'][] = 'Extensión no encontrada: ^1';
+        $this->messages['es'][] = 'Haga clic para buscar';
+        $this->messages['es'][] = 'No hay resultados';
+        $this->messages['es'][] = 'seleccionados';
+        $this->messages['es'][] = 'Seleccionar todo';
+        $this->messages['es'][] = 'Borrar la selección';
+        $this->messages['es'][] = 'Ninguno seleccionada';
+        $this->messages['es'][] = 'Se encontraron (^1) registros en "^2". El registro no se puede eliminar';
+        $this->messages['es'][] = 'Base de datos no encontrada';
+        $this->messages['es'][] = 'Tipo no admitido';
+        
         //fim
 	
         foreach ($this->messages as $lang => $messages)
@@ -492,6 +520,21 @@ class AdiantiCoreTranslator
     public static function setLanguage($lang)
     {
         $instance = self::getInstance();
+        
+        if (substr( (string) $lang,0,4) == 'auto')
+        {
+            $parts = explode(',', $lang);
+            $lang = $parts[1];
+            
+            if (!empty($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+            {
+                $autolang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'],0,2);
+                if (in_array($autolang, array_keys($instance->messages)))
+                {
+                    $lang = $autolang;
+                }
+            }
+        }
         
         if (in_array($lang, array_keys($instance->messages)))
         {

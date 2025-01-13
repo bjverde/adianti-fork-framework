@@ -16,7 +16,7 @@ use Exception;
 /**
  * A group of CheckButton's
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -48,7 +48,7 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
     {
         parent::__construct($name);
         parent::setSize(NULL);
-        $this->labelClass = 'tcheckgroup_label ';
+        $this->labelClass = 'tcheckgroup_label form-check-label';
         $this->useButton  = FALSE;
         $this->useSwitch  = FALSE;
     }
@@ -116,7 +116,7 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
      */
     public function setUseButton()
     {
-       $this->labelClass = 'btn btn-default ';
+       $this->labelClass = 'btn btn-outline-default ';
        $this->useButton  = TRUE;
     }
 
@@ -359,7 +359,7 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
         if ($this->useButton)
         {
             echo "<div tcheckgroup=\"{$this->name}\" class=\"toggle-wrapper {$editable_class}\" ".$this->getPropertiesAsString('aria').' data-toggle="buttons">';
-            echo '<div class="btn-group" style="clear:both;float:left;display:table;">';
+            echo '<div class="btn-group" style="clear:both;float:left;">';
         }
         else
         {
@@ -374,19 +374,17 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
             {
                 $button = $this->buttons[$index];
                 $button->setName($this->name.'[]');
-                $active = FALSE;
                 $id = $button->getId();
                 
                 // verify if the checkbutton is checked
-                if (!(is_null($this->value)) && (@in_array($index, $this->value)) OR $this->allItemsChecked)
+                if (!(is_null($this->value)) && (@in_array($index, (array) $this->value)) OR $this->allItemsChecked)
                 {
                     $button->setValue($index); // value=indexvalue (checked)
-                    $active = TRUE;
                 }
                 
                 // create the label for the button
                 $obj = $this->labels[$index];
-                $obj->{'class'} = $this->labelClass . ($active?'active':'');
+                $obj->{'class'} = $this->labelClass;
                 $obj->setTip($this->tag->title);
                 
                 if ($this->getSize() AND !$obj->getSize())
@@ -423,12 +421,11 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
                 
                 if ($this->useButton)
                 {
-                    $obj->add($button);
-                    $obj->show();
+                    $button->setProperty('class', 'btn-check');
                 }
                 else
                 {
-                    $classButton = 'filled-in';
+                    $classButton = 'form-check-input';
 
                     if ($this->useSwitch)
                     {
@@ -436,15 +433,14 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
                     }
 
                     $button->setProperty('class', $classButton);
-                    
-                    $obj->{'for'} = $button->getId();
-
-                    $wrapper = new TElement('div');
-                    $wrapper->{'style'} = 'display:inline-flex;align-items:center;';
-                    $wrapper->add($button);
-                    $wrapper->add($obj);
-                    $wrapper->show();
                 }
+                $obj->{'for'} = $button->getId();
+                
+                $wrapper = new TElement('div');
+                $wrapper->{'style'} = 'display:inline-flex;align-items:center;';
+                $wrapper->add($button);
+                $wrapper->add($obj);
+                $wrapper->show();
                 
                 $i ++;
                 
@@ -454,7 +450,7 @@ class TCheckGroup extends TField implements AdiantiWidgetInterface
                     if ($this->useButton)
                     {
                        echo '</div>';
-                       echo '<div class="btn-group" style="clear:both;float:left;display:table;">';
+                       echo '<div class="btn-group" style="clear:both;float:left;">';
                     }
                     else
                     {

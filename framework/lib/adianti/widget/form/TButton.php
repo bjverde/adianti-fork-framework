@@ -15,7 +15,7 @@ use Exception;
 /**
  * Button Widget
  *
- * @version    7.6
+ * @version    8.0
  * @package    widget
  * @subpackage form
  * @author     Pablo Dall'Oglio
@@ -70,7 +70,11 @@ class TButton extends TField implements AdiantiWidgetInterface
     public function setAction(TAction $action, $label = NULL)
     {
         $this->action = $action;
-        $this->label  = $label;
+        
+        if (isset($label))
+        {
+            $this->label = $label;
+        }
     }
     
     /**

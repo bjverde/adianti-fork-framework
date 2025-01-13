@@ -6,7 +6,7 @@ use Adianti\Widget\Base\TElement;
 /**
  * Bootstrap datagrid decorator for Adianti Framework
  *
- * @version    7.6
+ * @version    8.0
  * @package    wrapper
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
@@ -19,16 +19,18 @@ class BootstrapNotebookWrapper
     private $properties;
     private $direction;
     private $divisions;
+    private $wrapper_class;
     
     /**
      * Constructor method
      */
-    public function __construct(TNotebook $notebook)
+    public function __construct(TNotebook $notebook, $wrapper_class = '')
     {
         $this->decorated = $notebook;
         $this->properties = array();
         $this->direction = '';
         $this->divisions = array(2,10);
+        $this->wrapper_class = $wrapper_class;
     }
     
     /**
@@ -71,7 +73,7 @@ class BootstrapNotebookWrapper
         $rendered = $this->decorated->render();
         $rendered->{'role'} = 'tabpanel';
         unset($rendered->{'class'});
-        $rendered->{'class'} = 'tabwrapper';
+        $rendered->{'class'} = 'tabwrapper ' . $this->wrapper_class;
         
         foreach ($this->properties as $property => $value)
         {
