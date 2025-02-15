@@ -19,6 +19,12 @@ $content     = str_replace('{title}', $ini['general']['title'] ?? '', $content);
 $content     = str_replace('{template_options}',  json_encode($ini['template'] ?? []), $content);
 $content     = str_replace('{adianti_options}',  json_encode($ini['general']), $content);
 
+//--------------- adminbs5_t -----------------------
+$content     = str_replace('{system_name_sub}', $ini['general']['system_name_sub'] ?? '', $content);
+$content     = str_replace('{login}','usuario.logado', $content); //Aqui informe seu metodo de login
+//--------------- FIM adminbs5_t ------------------
+
+
 $css         = TPage::getLoadedCSS();
 $js          = TPage::getLoadedJS();
 $content     = str_replace('{HEAD}', $css.$js, $content);

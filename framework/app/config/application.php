@@ -5,7 +5,8 @@ return [
         'language' => 'pt',
         'application' => 'sample',
         'title' => 'Adianti Framework 8.0',
-        'theme' => 'adminbs5',
+        'system_name_sub' => 'Fork',
+        'theme' => 'adminbs5_v2',
         'debug' => '1'
     ],
     'template' => [
