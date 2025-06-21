@@ -207,6 +207,3 @@ Template.closeWindows = function() {
     $('[widget="TWindow"]').remove();
 }
 
-Template.wikiPagePicker = function(){
-    __adianti_load_page('index.php?class=SystemWikiPagePicker');
-};
