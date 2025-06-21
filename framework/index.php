@@ -16,6 +16,11 @@ else
 
 $menu_string = AdiantiMenuBuilder::parse('menu.xml', $theme);
 $content     = ApplicationTranslator::translateTemplate($content);
+
+$system_version = $ini['system']['system_version'];
+$title       = $ini['general']['title'];
+$head_title  = $title.' - v'.$system_version;
+
 $content     = str_replace('{LIBRARIES}', file_get_contents("app/templates/{$theme}/libraries.html"), $content);
 $content     = str_replace('{class}', isset($_REQUEST['class']) ? $_REQUEST['class'] : '', $content);
 $content     = str_replace('{template}', $theme, $content);
@@ -23,7 +28,9 @@ $content     = str_replace('{MENU}', $menu_string, $content);
 $content     = str_replace('{MENUTOP}', AdiantiMenuBuilder::parseNavBar('menu-top-public.xml', $theme), $content);
 $content     = str_replace('{MENUBOTTOM}', AdiantiMenuBuilder::parseNavBar('menu-bottom-public.xml', $theme), $content);
 $content     = str_replace('{lang}', $ini['general']['language'], $content);
-$content     = str_replace('{title}', $ini['general']['title'] ?? '', $content);
+$content     = str_replace('{head_title}', $head_title, $content);
+$content     = str_replace('{title}', $title, $content);
+$content     = str_replace('{system_version}', $system_version, $content);
 $content     = str_replace('{template_options}',  json_encode($ini['template'] ?? []), $content);
 $content     = str_replace('{adianti_options}',  json_encode($ini['general']), $content);
 
