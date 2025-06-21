@@ -2,7 +2,13 @@
 Informações sobre o Adianti e seu criador veja  [pagina principal](../README.md)
 
 # Principais alterações
+
+## v8.0.0
+* :hammer: [#27 Incluir temas](https://github.com/bjverde/adianti-fork-framework/issues/27)
+* :hammer: [#26 update adianti framework 8.0.0](https://github.com/bjverde/adianti-fork-framework/issues/26)
+
 ## v7.6.0.5 - SystemSqlLogService
+* 🐛 [#24 update phpmailer 6.0 para 6.6](https://github.com/bjverde/adianti-fork-framework/issues/24)
 * 🐛 [#22 SystemLog não está completo](https://github.com/bjverde/adianti-fork-framework/issues/22)
 
 ## v7.6.0.4 - SystemSqlLogService
@@ -13,7 +19,6 @@ Informações sobre o Adianti e seu criador veja  [pagina principal](../README.m
 
 ## v7.6.0.2 - Cortina Lateral
 * 🐛 [#19 Bug Cortina lateral](https://github.com/bjverde/adianti-fork-framework/issues/19), o FrameWork não funciona a cortina lateral. Essa alteração faz funcionar
-
 
 ## v7.6.0.1 - Temas melhorados 
 Os temas theme3 e theme4 foram substituidos algumas melhorias

@@ -1,11 +1,11 @@
 # adianti-framework-fork
-:elephant: Fork do Adianti FrameWork Puro 8.0.0
+:elephant: Fork do Adianti FrameWork Puro 8.1.0
 
-Versão Fork 8.0.0
+Versão Fork 8.1.0
 
 # Perguntas frequentes
 
-## Quem criou o Template com Adianti Framework ?
+## Quem criou o o Adianti Framework ?
 Foi criado por ***Pablo Dall'Oglio***, esse projeto tem um Fork do FrameWork com algumas modificações para melhorar seu uso e devolver para a comunidade.
 
 ## Qual é o site da versão oficial ?
