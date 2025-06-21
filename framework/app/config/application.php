@@ -4,10 +4,10 @@ return [
         'timezone' => 'America/Sao_Paulo',
         'language' => 'pt',
         'application' => 'sample',
-        'title' => 'Adianti Framework 8.0',
-        'system_name_sub' => 'Fork',
-        'theme' => 'adminbs5_v2',
-        'debug' => '1'
+        'title' => 'Adianti Framework 8.1',
+        'theme' => 'adminbs5',
+        'debug' => '1',
+        'strict_request' => '0'
     ],
     'template' => [
         'navbar' => [
@@ -15,7 +15,7 @@ return [
             'has_main_mode_switch' => '1'
         ],
         'dialogs' => [
-            'use_swal' => '0'
+            'use_swal' => '1'
         ],
         'theme' => [
             'menu_mode' => 'dark',
