@@ -52,34 +52,37 @@ Template.adjustMenu = function() {
 
 Template.toggleGlobalTheme = function(generator) {
     let next = ($(generator).is(":checked")) ? 'dark' : 'light';
+    let appname = Adianti.applicationName || '';
+    
     document.documentElement.setAttribute('data-bs-theme', next);
-    localStorage.setItem("bs-theme", next);
+    localStorage.setItem(appname+".bs-theme", next);
 }
 
 Template.toggleMenuTheme = function(generator) {
     let next = ($(generator).is(":checked")) ? 'dark' : 'light';
+    let appname = Adianti.applicationName || '';
+    
     document.documentElement.setAttribute('data-menu-theme', next);
-    localStorage.setItem("menu-theme", next);
+    localStorage.setItem(appname+".menu-theme", next);
 }
 
 Template.getGlobalTheme = function() {
-    return ( localStorage.getItem("bs-theme") !== null ) ? localStorage.getItem("bs-theme") : $(document.documentElement).data('bs-theme');
+    let appname = Adianti.applicationName || '';
+    return ( localStorage.getItem(appname+".bs-theme") !== null ) ? localStorage.getItem(appname+".bs-theme") : $(document.documentElement).data('bs-theme');
 }
 
 Template.getMenuTheme = function() {
-    return ( localStorage.getItem("menu-theme") !== null ) ? localStorage.getItem("menu-theme") : $(document.documentElement).data('menu-theme');
+    let appname = Adianti.applicationName || '';
+    return ( localStorage.getItem(appname+".menu-theme") !== null ) ? localStorage.getItem(appname+".menu-theme") : $(document.documentElement).data('menu-theme');
 }
 
 Template.setNavbarOptions = function(options) {
     Template.navbarOptions = options;
     
-    if (options['has_program_search'] == '1' && $("#navbar-wrapper").length > 0) {
+    if ((options['has_program_search'] == '1') && ($("#navbar-wrapper").length > 0) && ($('html').data('public') !== 'yes')) {
         $.get("engine.php?class=SearchBox", function(data) {
             $("#navbar-wrapper").append(data);
         });
-    }
-    else {
-        $("#navbar-wrapper").remove();
     }
     
     if (options['has_notifications'] == '1') {
@@ -131,14 +134,16 @@ Template.setThemeOptions = function(options) {
     }
     
     if (options['menu_mode']) {
-        if (localStorage.getItem("menu-theme") == null || Template.navbarOptions['has_menu_mode_switch'] == '0') {
+        let appname = Adianti.applicationName || '';
+        if (localStorage.getItem(appname+".menu-theme") == null || Template.navbarOptions['has_menu_mode_switch'] == '0') {
             document.documentElement.setAttribute('data-menu-theme', options['menu_mode']);
             $('#menu_theme_switch').prop('checked', (options['menu_mode'] == 'dark'));
         }
     }
     
     if (options['main_mode']) {
-        if (localStorage.getItem("bs-theme") == null || Template.navbarOptions['has_main_mode_switch'] == '0') {
+        let appname = Adianti.applicationName || '';
+        if (localStorage.getItem(appname+".bs-theme") == null || Template.navbarOptions['has_main_mode_switch'] == '0') {
             document.documentElement.setAttribute('data-bs-theme', options['main_mode']);
             $('#global_theme_switch').prop('checked', (options['main_mode'] == 'dark'));
         }
@@ -146,27 +151,36 @@ Template.setThemeOptions = function(options) {
 }
 
 Template.setDialogOptions = function(options) {
+    Template.dialogOptions = options;
+    
     if (options['use_swal'] == '1') {
-        window.__adianti_message = function(title, message, callback) {
-            __adianti_dialog( { type: 'success', title: title, message: message, callback: callback} );
-        }
+        window.__adianti_dialog_std = __adianti_dialog;
         
         window.__adianti_dialog = function( options ) {
             setTimeout( function() {
-                Swal.fire({
-                  title: options.title,
-                  html: options.message,
-                  icon: options.type,
-                  allowEscapeKey: true, /**(typeof options.callback == 'undefined'),*/
-                  allowOutsideClick: true /** (typeof options.callback == 'undefined') **/
-                }).then((result) => {
-                  if (result.isConfirmed || typeof (result.dismiss !== 'undefined')) {
-                    if (typeof options.callback != 'undefined') {
-                        options.callback();
-                    }
-                  }
-                });
+                if ($('.swal2-container').length == 0) {
+                    Swal.fire({
+                      title: options.title,
+                      html: options.message,
+                      icon: options.type,
+                      allowEscapeKey: true, /**(typeof options.callback == 'undefined'),*/
+                      allowOutsideClick: true /** (typeof options.callback == 'undefined') **/
+                    }).then((result) => {
+                      if (result.isConfirmed || typeof (result.dismiss !== 'undefined')) {
+                        if (typeof options.callback != 'undefined') {
+                            options.callback();
+                        }
+                      }
+                    });
+                }
+                else {
+                    window.__adianti_dialog_std( options );
+                }
             }, 100);
+        }
+        
+        window.__adianti_message = function(title, message, callback) {
+            __adianti_dialog( { type: 'success', title: title, message: message, callback: callback} );
         }
         
         window.__adianti_question = function(title, message, callback_yes, callback_no, label_yes, label_no) {
@@ -195,6 +209,7 @@ Template.setDialogOptions = function(options) {
 }
 
 Template.configure = function(options, context = 'main') {
+    Template.options = options;
     if (context !== 'login') {
         Template.setNavbarOptions(options['navbar'] ?? {});
         Template.setThemeOptions(options['theme'] ?? {});
@@ -205,4 +220,8 @@ Template.configure = function(options, context = 'main') {
     }
     
     Template.setDialogOptions(options['dialogs'] ?? {});
+}
+
+Template.getConfigureOptions = function() {
+    return Template.options;
 }

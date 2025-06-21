@@ -27,39 +27,18 @@ iframe
    border-radius: var(--bs-border-radius);
 }
 
-.thin-scroll::-webkit-scrollbar
-{
-    width: 8px;
-}
-
-.thin-scroll::-webkit-scrollbar-track
-{
-    background-color: var(--bs-secondary-border-subtle);
-}
-
-.thin-scroll::-webkit-scrollbar-thumb
-{
-    background-color: var(--bs-secondary-bg-subtle);
-    border: 1px solid var(--bs-secondary-bg);
-    border-radius: 0;
-}
-
 * {
-    scrollbar-width:auto;
-    scrollbar-color:#888888 #ffffff
+    --scrollbar-width: thin;
+    --scrollbar-width-legacy: 10px;
 }
 
-*::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
+/* Modern browsers with `scrollbar-*` support */
+@supports (scrollbar-width: auto) {
+    * {
+        scrollbar-width: var(--scrollbar-width);
+    }
 }
 
-*::-webkit-scrollbar-thumb
-{
-    background-color: #bfbfbf;
-    border-radius: 12px;
-    border: 2px solid #ffffff;
-}
 /****************************** BLOCKQUOTE **************************************/
 blockquote {
     border-left: 5px solid var(--bs-secondary-border-subtle);
@@ -163,7 +142,7 @@ blockquote {
     --bs-card-cap-padding-x: 1.25rem;
 }
 
-[data-menu-theme=dark] .card {
+[data-menu-theme=dark] .container-fluid .card {
     box-shadow: var(--bs-card-box-shadow);
 }
 
@@ -196,6 +175,10 @@ blockquote {
 
 .card-body.card-item-content > .tformrow {
     margin:0;
+}
+
+.right-panel .card-form {
+    border: none;
 }/********************** Background colors (Backward compatibility) *********************/
 
 .bg-red,.bg-yellow,.bg-aqua,.bg-blue,.bg-light-blue,.bg-green,.bg-navy,.bg-teal,.bg-olive,.bg-lime,.bg-orange,.bg-fuchsia,.bg-purple,.bg-maroon,.bg-black,.bg-red-active,.bg-yellow-active,.bg-aqua-active,.bg-blue-active,.bg-light-blue-active,.bg-green-active,.bg-navy-active,.bg-teal-active,.bg-olive-active,.bg-lime-active,.bg-orange-active,.bg-fuchsia-active,.bg-purple-active,.bg-maroon-active,.bg-black-active,
@@ -613,6 +596,10 @@ div[page_name="SystemContactsList"] .card {
 /********************************* DIALOGS ********************************************/
 div:where(.swal2-container) {
     z-index: 10000;
+}
+
+.modal-backdrop.fade {
+    opacity: var(--bs-backdrop-opacity) !important;
 }/********************************* DRIVE ********************************************/
 .system-drive {
     display: flex;
@@ -660,7 +647,26 @@ div:where(.swal2-container) {
 
 .dropdown-menu {
     --bs-dropdown-font-size: var(--ad-font-size);
-}/****************************** FONT **************************************/
+}
+
+/** submenus **/
+.dropdown-menu li {
+    position: relative;
+}
+.dropdown-menu .dropdown-submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: -7px;
+}
+.dropdown-menu .dropdown-submenu-left {
+    right: 100%;
+    left: auto;
+}
+.dropdown-menu > li:hover > .dropdown-submenu {
+    display: block;
+}
+/****************************** FONT **************************************/
 @font-face {
     font-family: 'Source Sans Pro';
     font-style: normal;
@@ -794,6 +800,10 @@ footer {
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
+.tfield_disabled {
+    padding: 0.375rem 0.75rem;
+}
+
 .tfield:focus {
     color: var(--bs-body-color);
     background-color: var(--bs-body-bg);
@@ -843,18 +853,6 @@ table.vertical-middle td
 
 [data-bs-theme=light] .popover {
     --bs-popover-header-bg: white;
-}
-
-.popover {
-    --bs-popover-body-padding-x: 10px;
-    --bs-popover-body-padding-y: 10px;
-}
-
-.popover img {
-    max-width: 100%;
-}
-.popover {
-    max-width: 800px;
 }
 
 .fade {
@@ -1106,11 +1104,19 @@ table.vertical-middle td
 }
 
 .bootbox-body {
-    overflow: auto;
+    /* overflow: auto; */
 }
 
 .modal-dialog .modal-content .modal-header {
     /*display: block;*/
+}
+
+.modal {
+    --bs-modal-zindex: 2055; /* over windows */
+}
+
+.modal.tinputdialog {
+    --bs-modal-width: 800px;
 }/*********************************************** TOPNAVBAR **************************************************/
 .navbar {
     min-height: 52px;
@@ -1127,6 +1133,16 @@ table.vertical-middle td
 
 [data-bs-theme=light] .navbar {
     background: white;
+}.popover {
+    --bs-popover-body-padding-x: 10px;
+    --bs-popover-body-padding-y: 10px;
+}
+
+.popover img {
+    max-width: 100%;
+}
+.popover {
+    max-width: 800px;
 }/******************************** POST ********************************************/
 .system_post .card-item {
     width: 100%;
@@ -1533,6 +1549,17 @@ a.sidebar-link.active, a.sidebar-link.active:hover {
 .avatar {
     height: 40px;
     width: 40px;
+}.note-popover {
+    position: absolute;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+}
+
+.note-popover > .popover-arrow {
+    display: none;
+}
+
+.note-editable > table {
+    border-collapse: collapse;
 }/********************* TIPPY BOX LIGHT BORDER *************************/
 .tippy-box[data-theme~=light-border] {
 	background-color: #fff;

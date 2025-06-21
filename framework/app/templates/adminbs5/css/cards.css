@@ -9,7 +9,7 @@
     --bs-card-cap-padding-x: 1.25rem;
 }
 
-[data-menu-theme=dark] .card {
+[data-menu-theme=dark] .container-fluid .card {
     box-shadow: var(--bs-card-box-shadow);
 }
 
@@ -42,4 +42,8 @@
 
 .card-body.card-item-content > .tformrow {
     margin:0;
+}
+
+.right-panel .card-form {
+    border: none;
 }

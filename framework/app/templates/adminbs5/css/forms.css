@@ -24,6 +24,10 @@
     transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
 
+.tfield_disabled {
+    padding: 0.375rem 0.75rem;
+}
+
 .tfield:focus {
     color: var(--bs-body-color);
     background-color: var(--bs-body-bg);
