@@ -2,7 +2,7 @@
 /**
  * Mail Service
  *
- * @version    7.6
+ * @version    8.1
  * @package    util
  * @author     Pablo Dall'Oglio
  * @copyright  Copyright (c) 2006 Adianti Solutions Ltd. (http://www.adianti.com.br)
