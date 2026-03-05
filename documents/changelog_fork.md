@@ -3,6 +3,11 @@ Informações sobre o Adianti e seu criador veja  [pagina principal](../README.m
 
 # Principais alterações
 
+## v8.4.0
+* :hammer: [#31 Incluir temas](https://github.com/bjverde/adianti-fork-framework/issues/31)
+* :hammer: [#30 update adianti framework 8.4.0](https://github.com/bjverde/adianti-fork-framework/issues/30)
+
+
 ## v8.0.0
 * :hammer: [#27 Incluir temas](https://github.com/bjverde/adianti-fork-framework/issues/27)
 * :hammer: [#26 update adianti framework 8.0.0](https://github.com/bjverde/adianti-fork-framework/issues/26)

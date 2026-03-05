@@ -1,7 +1,7 @@
 # adianti-framework-fork
-:elephant: Fork do Adianti FrameWork Puro 8.1.0
+:elephant: Fork do Adianti FrameWork Puro 8.4.0
 
-Versão Fork 8.1.0
+Versão Fork 8.4.0
 
 # Perguntas frequentes
 
@@ -20,7 +20,7 @@ https://adiantiframework.com.br/guia-rapido
 
 ## O que tem em cada pasta ?
 * documents - diveros arquvivos e documentos sobre o fork
-* framework - é o fork do Adianti Fork 8.0.0
+* framework - é o fork do Adianti Fork 8.4.0
 
 ### Quais são as modificações em relação a versão original ?
 Veja documento [Changelog do Fork](documents/changelog_fork.md)
