@@ -4,8 +4,8 @@ return [
         'timezone' => 'America/Sao_Paulo',
         'language' => 'pt',
         'application' => 'sample',
-        'title' => 'Adianti Framework 8.4',
-        'theme' => 'adminbs5_v6',
+        'title' => 'Adianti Framework 8.6',
+        'theme' => 'adminbs5',
         'debug' => '1',
         'strict_request' => '0'
     ],
@@ -21,11 +21,5 @@ return [
             'menu_mode' => 'dark',
             'main_mode' => 'light'
         ]
-    ],
-    'system' =>  [
-        'system_version' => '1.0.0',
-        'system_name_sub' => 'Fork do Adianti FrameWork',
-        'adianti_min_version' => '8.4.0',
-        'formdin_min_version' => '5.9.0',
     ]
 ];
