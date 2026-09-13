@@ -31,7 +31,7 @@ $content     = str_replace('{MENU}', $menu_string, $content);
 $content     = str_replace('{MENUTOP}', AdiantiMenuBuilder::parseNavBar('menu-top-public.xml', $theme), $content);
 $content     = str_replace('{MENUBOTTOM}', AdiantiMenuBuilder::parseNavBar('menu-bottom-public.xml', $theme), $content);
 $content     = str_replace('{lang}', $ini['general']['language'], $content);
-$content     = str_replace('{title}', $ini['general']['title'] ?? '', $content);
+//$content     = str_replace('{title}', $ini['general']['title'] ?? '', $content);
 $content     = str_replace('{template_options}',  json_encode($ini['template'] ?? []), $content);
 $content     = str_replace('{adianti_options}',  json_encode($ini['general']), $content);
 
